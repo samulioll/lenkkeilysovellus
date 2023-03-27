@@ -21,3 +21,4 @@ Sovellus mihin käyttäjät voivat lisätä pyörällä (mahd. myös juosten) te
 - Kaikkien käyttäjien tilastot
 	- Jokainen käyttäjä voi nähdä tilastot kaikkien käyttäjien tekemistä lenkeistä, riippumatta yksityisyysasetuksista. Kokonaistilastoista ei kuitenkaan voi yksilöidä käyttäjiä.
 
+.
