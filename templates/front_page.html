@@ -1,12 +1,12 @@
 <h1> Sports activity app</h1>
 
-<p>Information about the app</p>
+<p>-- Information about the app --</p>
 
-{% if session.username %}
-<p>You are logged in as {{ session.username }}</p>
+{% if user_id != 0 %}
+<p>You are logged in as USERNAME</p>
 <a href="/logout">Log out</a>
 
 {% else %}
-<a href="/login_view">Log in</a><br>
-<a href="/register_view">Create account</a>
+<a href="/login">Log in</a><br>
+<a href="/register">Create account</a>
 {% endif %}

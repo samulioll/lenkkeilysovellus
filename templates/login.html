@@ -1,9 +1,7 @@
 <h1> Sports activity app</h1>
 
-{% if session.username_error %}
-<p>No account with username {{session.attempted_user}}</p>
-{% elif session.password_error %}
-<p>Wrong password</p>
+{% if error_message %}
+<p>{{ error_message }}</p>
 {% endif %}
 
 <form action="/login" method="POST">
@@ -13,5 +11,5 @@
 <input type="password" name="password"></p>
 <input type="submit" value="Log in">
 </form><br>
-<a href="/register_view">Create account</a>
+<a href="/register">Create account</a>
 
