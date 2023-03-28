@@ -12,18 +12,14 @@ app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
 db = SQLAlchemy(app)
 
 @app.route("/")
-def index():
+def front_page():
     session["username_error"] = False
     session["password_error"] = False
-    return render_template("index.html")
+    return render_template("front_page.html")
 
 @app.route("/login_view")
 def login_view():
     return render_template("login_view.html")
-
-@app.route("/create_account")
-def create_account():
-    return render_template("create_account.html")
 
 @app.route("/login",methods=["POST"])
 def login():
@@ -44,31 +40,38 @@ def login():
             session["username"] = username
             session["password_error"] = False
             session["username_error"] = False
-            return redirect("/")
+            return redirect("/user_dashboard")
         else:
             session["password_error"] = True
             session["username_error"] = False
             return redirect("/login_view")
+        
+@app.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/")
 
-@app.route("/add_user", methods=["POST"])
-def add_user():
+@app.route("/register_view")
+def register_view():
+    return render_template("register_view.html")
+
+@app.route("/register", methods=["POST"])
+def register():
     username = request.form["username"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     sql = text("SELECT username FROM Users WHERE username=:username")
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
-
     if user:
         session["username_error"] = True
-        session["attempted:user"] = username
+        session["attempted_user"] = username
         session["password_error"] = False
-        return redirect("/create_account")
+        return redirect("/register_view")
     if password1 != password2:
         session["password_error"] = True
         session["username_error"] = False
-        return redirect("/create_account")
-    
+        return redirect("/register_view") 
     session["password_error"] = False
     session["username_error"] = False
     hash_value = generate_password_hash(password1)
@@ -76,11 +79,12 @@ def add_user():
     db.session.execute(sql, {"username":username, "password":hash_value})
     db.session.commit()
     print("Account created")
-    return redirect("/")
+    session["username"] = username
+    return redirect("/user_dashboard")
+
+@app.route("/user_dashboard")
+def user_dashboard():
+    return render_template("user_dashboard.html")
 
 
-@app.route("/logout")
-def logout():
-    del session["username"]
-    return redirect("/")
 
