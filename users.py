@@ -13,6 +13,7 @@ def login(username, password):
     else:
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
+            session["username"] = username
             return True
         else:
             return False
@@ -22,6 +23,7 @@ def user_id():
         
 def logout():
     del session["user_id"]
+    del session["username"]
         
 def register(username, password):
     sql = text("SELECT id FROM users WHERE username=:username")

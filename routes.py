@@ -15,13 +15,13 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         if users.login(username, password):
-            return redirect("/user_dashboard.html")
+            return redirect("/dashboard")
         else:
             return render_template("login.html", error_message="Incorrect username or password")
 
 @app.route("/logout")
 def logout():
-    #users.logout()
+    users.logout()
     return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -38,3 +38,17 @@ def register():
             return redirect("/user_dashboard")
         else:
             return render_template("register.html", error_message="Username is already in use")
+
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
+
+@app.route("/add_activity", methods=["GET", "POST"])
+def add_activity():
+    if request.method == "GET":
+        return render_template("add_activity.html")
+    elif request.method == "POST":
+        if activities.add_activity(request.form):
+            return redirect("/dashboard")
+        else:
+            return render_template("add_activity.html", error_message="Invalid time")
