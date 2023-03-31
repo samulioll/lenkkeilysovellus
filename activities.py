@@ -3,6 +3,7 @@ from db import db
 from flask import session
 from sqlalchemy import text
 import datetime
+import users
 
 def add_activity(form):
     try:
@@ -14,3 +15,8 @@ def add_activity(form):
         return True
     except:
         return False
+    
+def user_overview():
+    sql = text("SELECT * FROM activities WHERE user_id=:user_id")
+    result = db.session.execute(sql, {"user_id":session["user_id"]})
+    return result.fetchall()

@@ -41,7 +41,8 @@ def register():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    overview = activities.user_overview()
+    return render_template("dashboard.html", overview=overview)
 
 @app.route("/add_activity", methods=["GET", "POST"])
 def add_activity():

@@ -1,5 +1,10 @@
 <h1>Sports activity app</h1><br>
 <h3>Hello {{ session.username }}!</h3><br>
-<p>User overview</p>
+<p>Overview of activities</p>
+<ul>
+{% for activity in overview %}
+<li>{{activity}}</li>
+{% endfor %}
+</ul>
 <a href="/add_activity">Add activity</a><br>
 <p>Community feed</p>
