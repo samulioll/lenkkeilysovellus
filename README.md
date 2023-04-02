@@ -55,6 +55,7 @@ SECRET_KEY=<salainen-avain>
 ```
 
 2. Aktivoi sen jälkeen virtuaaliympäristö komennolla: 
+
 ```
 python3 -m venv venv
 source venv/bin/activate
@@ -66,9 +67,9 @@ pip install -r ./requirements.txt
 ```
 
 4. Määritä sovelluksen tietokannan skeema komennolla:
-```
+~~~
 psql < schema.sql
-```
+~~~
 
 5. Voit nyt käynnistää sovelluksen komennolla:
 	flask run
