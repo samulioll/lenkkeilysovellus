@@ -49,18 +49,26 @@ Sovelluksen perusrakenne on kasassa. Käyttäjäprofiilin luominen onnistuu ja s
 ## Sovelluksen käynnistäminen paikallisesti
 
 1. Kloonaa repositorio koneellesi ja luo sen juurikansioon tiedosto .env, ja lisää sen sisälle seuraavat rivit:
-	DATABASE_URL=<tietokannan-paikallinen-osoite>
-	SECRET_KEY=<salainen-avain>
+```
+DATABASE_URL=<tietokannan-paikallinen-osoite>
+SECRET_KEY=<salainen-avain>
+```
 
 2. Aktivoi sen jälkeen virtuaaliympäristö komennolla: 
-	python3 -m venv venv
-	source venv/bin/activate
+```
+python3 -m venv venv
+source venv/bin/activate
+```
 
 3. Asenna sitten sovelluksen riippuvuudet komennolla:
-	pip install -r ./requirements.txt
+```
+pip install -r ./requirements.txt
+```
 
 4. Määritä sovelluksen tietokannan skeema komennolla:
-	psql < schema.sql
+```
+psql < schema.sql
+```
 
 5. Voit nyt käynnistää sovelluksen komennolla:
 	flask run
