@@ -67,9 +67,11 @@ pip install -r ./requirements.txt
 ```
 
 4. Määritä sovelluksen tietokannan skeema komennolla:
-~~~
+```
 psql < schema.sql
-~~~
+```
 
 5. Voit nyt käynnistää sovelluksen komennolla:
-	flask run
+```
+flask run
+```
