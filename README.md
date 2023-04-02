@@ -1,6 +1,6 @@
 # Lenkkeilysovellus
 
-Sovellus ei ole vielä fly.io-palvelussa. Ohjeet sovelluksen käynnistämiseen paikallisesti README:n lopussa.
+Sovellus ei ole vielä fly.io-palvelussa. Ohjeet sovelluksen käynnistämiseen paikallisesti README:n [lopussa](https://github.com/samulioll/lenkkeilysovellus/blob/main/README.md#sovelluksen-k%C3%A4ynnist%C3%A4minen-paikallisesti).
 
 ## Perusidea
 
