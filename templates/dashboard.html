@@ -8,3 +8,7 @@
 </ul>
 <a href="/add_activity">Add activity</a><br>
 <p>Community feed</p>
+{% if session.user_id %}
+<p>You are logged in as {{ session.username}}</p>
+<a href="/logout">Log out</a>
+{% endif %}
