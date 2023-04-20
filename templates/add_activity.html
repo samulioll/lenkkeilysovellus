@@ -2,6 +2,7 @@
 {% if error_message %}
 <p>{{ error_message }}</p>
 {% endif %}
+
 <form action="/add_activity" method="POST">
     Sport:
     <p>
@@ -11,12 +12,23 @@
     </p>
     Route:
     <p>
-    <input type="radio" name="route" value="1"> Route 1
-    <input type="radio" name="route" value="2"> Route 2
-    <input type="radio" name="route" value="3"> Route 3
+    <select name="routes" id="route">
+    <option value="0">Select route</option>
+    <option value="1">Route 1 | 5 km</option>
+    <option value="2">Route 2 | 7.5 km</option>
+    <option value="3">Route 3 | 10 km</option>
+    <option value="4">Route 4 | 15 km</option>
+    <option value="5">Route 5 | 20 km</option>
+    <option value="6">Route 6 | 21.1 km</option>
+    <option value="7">Route 7 | 30 km</option>
+    <option value="8">Route 8 | 40 km</option>
+    <option value="9">Route 9 | 42.2 km</option>
+    <option value="10">Route 10 | 60 km</option>
+    <option value="11">Route 11 | 80 km</option>
+    </select>
     </p>
     Time (hh:mm:ss)
     <p>
     <input type="text" name="time"></p>
     <input type="submit" value="Add activity">
-    </form><br>
+</form><br>

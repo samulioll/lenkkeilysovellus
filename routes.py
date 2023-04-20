@@ -1,5 +1,5 @@
 from app import app
-import activities, users
+import activities, users, activity_routes, groups
 from flask import render_template, redirect, request, session
 
 
@@ -41,7 +41,7 @@ def register():
 
 @app.route("/dashboard")
 def dashboard():
-    overview = activities.user_overview()
+    overview = activities.user_activities_overview()
     return render_template("dashboard.html", overview=overview)
 
 @app.route("/add_activity", methods=["GET", "POST"])
@@ -53,3 +53,17 @@ def add_activity():
             return redirect("/dashboard")
         else:
             return render_template("add_activity.html", error_message="Invalid time")
+
+@app.route("/community")
+def community():
+    return render_template("community_page.html", user_id=users.user_id())
+
+@app.route("/join_group", methods=["GET", "POST"])
+def join_group():
+    if request.method == "GET":
+        return render_template("join_group.html")
+    elif request.method == "POST":
+        if groups.join_group(request.form):
+            return redirect("/community")
+        else:
+            return render_template("join_group.html", error_message="Error in joining group")

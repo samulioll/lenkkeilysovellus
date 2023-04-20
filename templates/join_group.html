@@ -1,0 +1,18 @@
+<h3>Join group</h3>
+{% if error_message %}
+<p>{{ error_message }}</p>
+{% endif %}
+
+<form action="/join_group" method="POST">
+    Group:
+    <p>
+    <select name="groups" id="group">
+    <option value="0">Select route</option>
+    <option value="1">Kumpulan kovat</option>
+    <option value="2">TKO-Äly</option>
+    <option value="3">KELS</option>
+    <option value="4">Joku ryhmä</option>
+    </select>
+    </p>
+    <input type="submit" value="Join group">
+</form><br>

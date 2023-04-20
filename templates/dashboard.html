@@ -1,5 +1,5 @@
-<h1>Sports activity app</h1><br>
-<h3>Hello {{ session.username }}!</h3><br>
+<h1>Sports activity app</h1>
+<h3>Hello {{ session.username }}!</h3>
 <p>Overview of activities</p>
 <ul>
 {% for activity in overview %}
@@ -8,7 +8,7 @@
 </ul>
 <a href="/add_activity">Add activity</a><br>
 <p>Community feed</p>
+<a href="/community">Community page</a><br>
 {% if session.user_id %}
-<p>You are logged in as {{ session.username}}</p>
-<a href="/logout">Log out</a>
+<br><a href="/logout">Log out</a>
 {% endif %}
