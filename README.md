@@ -48,6 +48,8 @@ Sovelluksen perusrakenne on kasassa. Käyttäjäprofiilin luominen onnistuu ja s
 
 ## Sovelluksen käynnistäminen paikallisesti
 
+Sovellus tarvitsee toimiakseen käöynnissä olevan postgresql-yhteyden. Voit asentaa ja aktivoida postgresql:n [tämän](https://github.com/hy-tsoha/local-pg) ohjeen mukaisesti. Älä unohda lopettaa skriptiä sovelluksen testaamisen jälkeen!
+
 1. Kloonaa repositorio koneellesi ja luo sen juurikansioon tiedosto .env, ja lisää sen sisälle seuraavat rivit:
 ```
 DATABASE_URL=<tietokannan-paikallinen-osoite>
