@@ -1,0 +1,12 @@
+<h1>Sports activity app</h1>
+<p>Hello {{ session.username }}!</p>
+<h2>Community Page</h2><br>
+<h3>Your groups:</h3>
+<a href="/join_group">Join group</a><br>
+<br>
+<h3>Community feed:</h3>
+<a href="/community">Community page</a><br>
+<br>
+{% if session.user_id %}
+<br><a href="/logout">Log out</a>
+{% endif %}
