@@ -8,6 +8,9 @@ import users
 def add_activity(form):
     try:
         parts = form["time"].split(":")
+        for part in parts:
+            if len(part)>2:
+                return False
         time = int(parts[2]) + (60 * int(parts[1])) + (3600 * int(parts[0]))
         sql = text("INSERT INTO activities (user_id, sport_id, route_id, duration, date) VALUES (:user_id, :sport_id, :route_id, :duration, :date)")
         db.session.execute(sql, {"user_id":int(session["user_id"]), "sport_id":int(form["sport"]), "route_id":int(form["routes"]), "duration":time, "date":str(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M"))})

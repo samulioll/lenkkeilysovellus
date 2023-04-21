@@ -1,4 +1,7 @@
-<h3>Add new activity</h3>
+{% extends "layout.html" %}
+{% block title %} Add new activity{% endblock %}
+{% block content %}
+<h2>Add new activity</h2>
 {% if error_message %}
 <p>{{ error_message }}</p>
 {% endif %}
@@ -32,3 +35,4 @@
     <input type="text" name="time"></p>
     <input type="submit" value="Add activity">
 </form><br>
+{%endblock %}

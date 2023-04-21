@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 {% block title %} Log in or create an account {% endblock %}
 {% block content %}
-<p>Overview of activities</p>
+<h2>Overview of activities</h2>
 <ul>
 {% for activity in list %}
 <li>{{activity}}</li>
 {% endfor %}
 </ul>
 <a href="/add_activity">Add activity</a><br>
-<p>Community feed</p>
+<h2>Community feed</h2>
 <a href="/community">Community page</a><br>
 {% if session.user_id %}
 <br><a href="/logout">Log out</a>
