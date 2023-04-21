@@ -7,6 +7,9 @@
 <p>{{ group.name }}</p>
 {% endfor %}
 <a href="/join_group">Join group</a><br>
+{% if user_groups %}
+<a href="/leave_group">Leave group</a><br>
+{% endif %}
 <br>
 <h3>Community feed:</h3>
 <a href="/community">Community page</a><br>

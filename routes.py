@@ -70,4 +70,14 @@ def join_group():
         if groups.join_group(request.form):
             return redirect("/community")
         else:
-            return render_template("join_group.html", error_message="Error in joining group")
+            return render_template("join_group.html", group_list=groups.get_groups(), error_message="Error in joining group")
+        
+@app.route("/leave_group", methods=["GET", "POST"])
+def leave_group():
+    if request.method == "GET":
+        return render_template("leave_group.html", group_list=groups.get_groups())
+    elif request.method == "POST":
+        if groups.leave_group(request.form):
+            return redirect("/community")
+        else:
+            return render_template("leave_group.html", group_list=groups.get_groups(), error_message="Error in leaving group")

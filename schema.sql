@@ -6,7 +6,8 @@ CREATE TABLE users (
 
 CREATE TABLE groups (
     id SERIAL PRIMARY KEY,
-    name TEXT
+    name TEXT,
+    visible BOOLEAN
 );
 
 CREATE TABLE sports (
@@ -17,7 +18,8 @@ CREATE TABLE sports (
 CREATE TABLE routes (
     id SERIAL PRIMARY KEY,
     name TEXT,
-    length INTEGER
+    length INTEGER,
+    visible BOOLEAN
 );
 
 CREATE TABLE activities (
@@ -26,13 +28,15 @@ CREATE TABLE activities (
     sport_id INTEGER REFERENCES sports,
     route_id INTEGER REFERENCES routes,
     duration INT,
-    date TEXT
+    date TEXT,
+    visible BOOLEAN
 );
 
 CREATE TABLE groupmembers (
     id SERIAL PRIMARY KEY,
     group_id INTEGER REFERENCES groups,
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users,
+    visible BOOLEAN
 );
 
 CREATE TABLE comments (
@@ -40,6 +44,21 @@ CREATE TABLE comments (
     activity_id INTEGER REFERENCES activities,
     user_id INTEGER REFERENCES users,
     content TEXT,
-    date TEXT
+    date BOOLEAN,
+    visible TEXT
 );
 
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 5km', 5, TRUE);
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 7.5km', 7.5, TRUE);
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 10km', 10, TRUE);
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 10km', 10, TRUE);
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 15km', 15, TRUE);
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 20km', 20, TRUE);
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 21.1km', 21.1, TRUE);
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 30km', 30, TRUE);
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 40km', 40, TRUE);
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 40.2km', 40.2, TRUE);
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 60km', 60, TRUE);
+INSERT INTO routes (name, length, visible) VALUES ('PRESET 80km', 80, TRUE);
+
+INSERT INTO groups (name, visible) VALUES ('TKO-Äly', TRUE);
