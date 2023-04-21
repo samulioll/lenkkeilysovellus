@@ -1,13 +1,5 @@
-<h1> Sports activity app</h1>
-
+{% extends "layout.html" %}
+{% block title %} Front page {% endblock %}
+{% block content %}
 <p>-- Information about the app --</p>
-
-{% if session.user_id %}
-<p>You are logged in as {{ session.username}}</p>
-<a href="/dashboard">Dashboard</a><br>
-<a href="/logout">Log out</a>
-
-{% else %}
-<a href="/login">Log in</a><br>
-<a href="/register">Create account</a>
-{% endif %}
+{%endblock %}

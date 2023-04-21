@@ -1,9 +1,9 @@
-<h1> Sports activity app</h1>
-
+{% extends "layout.html" %}
+{% block title %} Log in or create an account {% endblock %}
+{% block content %}
 {% if error_message %}
 <p>{{ error_message }}</p>
 {% endif %}
-
 <form action="/login" method="POST">
 <p>Tunnus:<br>
 <input type="text" name="username"></p>
@@ -12,4 +12,4 @@
 <input type="submit" value="Log in">
 </form><br>
 <a href="/register">Create account</a>
-
+{%endblock %}

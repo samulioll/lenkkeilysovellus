@@ -1,8 +1,9 @@
-<h1>Sports activity app</h1>
-<h3>Hello {{ session.username }}!</h3>
+{% extends "layout.html" %}
+{% block title %} Log in or create an account {% endblock %}
+{% block content %}
 <p>Overview of activities</p>
 <ul>
-{% for activity in overview %}
+{% for activity in list %}
 <li>{{activity}}</li>
 {% endfor %}
 </ul>
@@ -12,3 +13,4 @@
 {% if session.user_id %}
 <br><a href="/logout">Log out</a>
 {% endif %}
+{%endblock %}
