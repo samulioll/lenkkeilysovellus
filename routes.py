@@ -57,12 +57,15 @@ def add_activity():
 
 @app.route("/community")
 def community():
-    return render_template("community_page.html", user_id=users.user_id())
+    return render_template(
+        "community_page.html", 
+        user_id=users.user_id(),
+        user_groups=groups.user_groups_overview())
 
 @app.route("/join_group", methods=["GET", "POST"])
 def join_group():
     if request.method == "GET":
-        return render_template("join_group.html")
+        return render_template("join_group.html", group_list=groups.get_groups())
     elif request.method == "POST":
         if groups.join_group(request.form):
             return redirect("/community")

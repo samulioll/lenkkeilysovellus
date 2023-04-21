@@ -12,12 +12,13 @@ def join_group(form):
     except:
         return False
 
-
 def leave_group():
     pass
 
-def group_overview():
-    pass
+def user_groups_overview():
+    sql = text("SELECT G.name FROM groups G, groupmembers M WHERE G.id=M.group_id AND M.user_id=:user_id")
+    result = db.session.execute(sql, {"user_id":session["user_id"]})
+    return result.fetchall()
 
 def get_groups():
     result = db.session.execute(text("SELECT * FROM groups"))

@@ -10,11 +10,9 @@
     Group:
     <p>
     <select name="groups" id="group">
-    <option value="0">Select route</option>
-    <option value="1">Kumpulan kovat</option>
-    <option value="2">TKO-Äly</option>
-    <option value="3">KELS</option>
-    <option value="4">Joku ryhmä</option>
+    {% for group in group_list %}
+    <option value={{group.id}}>{{group.name}}</option>
+    {% endfor %}
     </select>
     </p>
     <input type="submit" value="Join group">
