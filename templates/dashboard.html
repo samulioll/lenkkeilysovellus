@@ -2,15 +2,16 @@
 {% block title %} Log in or create an account {% endblock %}
 {% block content %}
 <h2>Overview of activities</h2>
+{% if list %}
 <ul>
-{% for activity in list %}
-<li>{{activity}}</li>
-{% endfor %}
+    {% for activity in list %}
+    <li>{{activity}}</li>
+    {% endfor %}
 </ul>
+{% else %}
+<p>You don't have any recorded activities yet.</p>
+{% endif %}
 <a href="/add_activity">Add activity</a><br>
 <h2>Community feed</h2>
 <a href="/community">Community page</a><br>
-{% if session.user_id %}
-<br><a href="/logout">Log out</a>
-{% endif %}
 {%endblock %}

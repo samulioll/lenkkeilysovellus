@@ -1,17 +1,17 @@
-<h1> Sports activity app</h1>
-<br>
-<h3>Create profile</h3>
+{% extends "layout.html" %}
+{% block title %} Log in or create an account {% endblock %}
+{% block content %}
 {% if error_message %}
 <p>{{ error_message }}</p>
 {% endif %}
 
 <form action="/register" method="POST">
-<p>Username:<br>
-<input type="text" name="username"></p>
-<p>Password:<br>
-<input type="password" name="password1"></p>
-<p>Re-type password:<br>
-<input type="password" name="password2"></p>
-<input type="submit" value="Create account">
+    <p>Username:<br>
+    <input type="text" name="username"></p>
+    <p>Password:<br>
+    <input type="password" name="password1"></p>
+    <p>Re-type password:<br>
+    <input type="password" name="password2"></p>
+    <input type="submit" value="Create account">
 </form>
-<a href="/login">Log in</a>
+{%endblock %}

@@ -10,11 +10,4 @@
 {% if user_groups %}
 <a href="/leave_group">Leave group</a><br>
 {% endif %}
-<br>
-<h3>Community feed:</h3>
-<a href="/community">Community page</a><br>
-<br>
-{% if session.user_id %}
-<br><a href="/logout">Log out</a>
-{% endif %}
 {%endblock %}

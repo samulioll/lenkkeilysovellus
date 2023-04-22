@@ -35,7 +35,7 @@ def register():
         if password1 != password2:
             return render_template("register.html", error_message="Passwords don't match")
         if users.register(username, password1):
-            return redirect("/user_dashboard")
+            return redirect("/dashboard")
         else:
             return render_template("register.html", error_message="Username is already in use")
 
@@ -48,12 +48,13 @@ def dashboard():
 @app.route("/add_activity", methods=["GET", "POST"])
 def add_activity():
     if request.method == "GET":
-        return render_template("add_activity.html")
+        return render_template("add_activity.html", route_list = activity_routes.get_activity_routes())
     elif request.method == "POST":
-        if activities.add_activity(request.form):
+        success, message = activities.add_activity(request.form)
+        if success:
             return redirect("/dashboard")
         else:
-            return render_template("add_activity.html", error_message="Invalid time")
+            return render_template("add_activity.html", error_message=message)
 
 @app.route("/community")
 def community():

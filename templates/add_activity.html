@@ -9,30 +9,23 @@
 <form action="/add_activity" method="POST">
     Sport:
     <p>
-    <input type="radio" name="sport" value="1"> Walk
-    <input type="radio" name="sport" value="2"> Run
-    <input type="radio" name="sport" value="3"> Cycling
+        <input type="radio" name="sport" value="1"> Walk
+        <input type="radio" name="sport" value="2"> Run
+        <input type="radio" name="sport" value="3"> Cycling
     </p>
     Route:
     <p>
-    <select name="routes" id="route">
-    <option value="0">Select route</option>
-    <option value="1">Route 1 | 5 km</option>
-    <option value="2">Route 2 | 7.5 km</option>
-    <option value="3">Route 3 | 10 km</option>
-    <option value="4">Route 4 | 15 km</option>
-    <option value="5">Route 5 | 20 km</option>
-    <option value="6">Route 6 | 21.1 km</option>
-    <option value="7">Route 7 | 30 km</option>
-    <option value="8">Route 8 | 40 km</option>
-    <option value="9">Route 9 | 42.2 km</option>
-    <option value="10">Route 10 | 60 km</option>
-    <option value="11">Route 11 | 80 km</option>
-    </select>
+        <select name="routes" id="route">
+        <option value="0">Select route</option>
+        {% for route in route_list %}
+        <option value={{route.id}}>{{route.name}}</option>
+        {% endfor %}
+        </select>
     </p>
     Time (hh:mm:ss)
     <p>
-    <input type="text" name="time"></p>
+        <input type="text" name="time">
+    </p>
     <input type="submit" value="Add activity">
 </form><br>
 {%endblock %}

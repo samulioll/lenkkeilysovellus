@@ -62,3 +62,7 @@ INSERT INTO routes (name, length, visible) VALUES ('PRESET 60km', 60, TRUE);
 INSERT INTO routes (name, length, visible) VALUES ('PRESET 80km', 80, TRUE);
 
 INSERT INTO groups (name, visible) VALUES ('TKO-Äly', TRUE);
+
+INSERT INTO sports (name) VALUES ('walk');
+INSERT INTO sports (name) VALUES ('run');
+INSERT INTO sports (name) VALUES ('cycling');
