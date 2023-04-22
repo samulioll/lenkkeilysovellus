@@ -45,6 +45,12 @@ def dashboard():
     formatted = activities.format_activities_for_overview(overview)
     return render_template("dashboard.html", list=formatted)
 
+@app.route("/all_activities")
+def all_activities():
+    activity_list = activities.all_user_activities()
+    formatted = activities.format_activities_for_overview(activity_list)
+    return render_template("all_activities.html", activity_list=formatted)
+
 @app.route("/add_activity", methods=["GET", "POST"])
 def add_activity():
     if request.method == "GET":

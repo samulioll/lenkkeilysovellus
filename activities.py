@@ -26,7 +26,12 @@ def check_valid_time(parts: list):
     return True
     
 def user_activities_overview():
-    sql = text("SELECT * FROM activities WHERE user_id=:user_id")
+    sql = text("SELECT * FROM activities WHERE user_id=:user_id ORDER BY id DESC LIMIT 5")
+    result = db.session.execute(sql, {"user_id":session["user_id"]})
+    return result.fetchall()
+
+def all_user_activities():
+    sql = text("SELECT * FROM activities WHERE user_id=:user_id ORDER BY id DESC")
     result = db.session.execute(sql, {"user_id":session["user_id"]})
     return result.fetchall()
 
