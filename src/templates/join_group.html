@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block title %} Add new activity{% endblock %}
+{% block content %}
+<h2>Join group</h2>
+{% if error_message %}
+<p>{{ error_message }}</p>
+{% endif %}
+
+<form action="/join_group" method="POST">
+    Group:
+    <p>
+        <select name="groups" id="group">
+        {% for group in group_list %}
+        <option value={{group.id}}>{{group.name}}</option>
+        {% endfor %}
+        </select>
+    </p>
+    <input type="submit" value="Join group">
+</form><br>
+{%endblock %}

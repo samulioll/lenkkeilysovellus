@@ -1,0 +1,19 @@
+<!doctype html>
+<title>Sports activity app - {% block title %}{% endblock %}</title>
+<a href="/"><h1>Sports activity app</h1></a>
+{% if session.user_id %}
+<p>
+You are logged in as {{ session.username}}<br>
+<a href="/logout">Log out</a><br>
+</p>
+<a href="/dashboard">Dashboard</a><br>
+
+{% else %}
+<p>Please log in or create an account<br>
+<a href="/login">Log in</a> - <a href="/register">Create account</a>
+</p>
+{% endif %}
+<hr>
+{% block content %}{% endblock %}
+<hr>
+Version 0.6</a>

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %} Log in or create an account {% endblock %}
+{% block content %}
+<h2>Your last 5 activities</h2>
+{% if list %}
+<ul>
+    {% for activity in list %}
+    <li>{{activity}}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>You don't have any recorded activities yet.</p>
+{% endif %}
+<a href="/add_activity">Add activity</a> - <a href="/all_activities">All activities</a><br>
+<h2>Community feed</h2>
+<a href="/community">Community page</a><br>
+{%endblock %}
