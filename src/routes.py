@@ -66,6 +66,14 @@ def all_activities():
                            activity_list=formatted
                            )
 
+@app.route("/all_group_activities")
+def all_group_activities():
+    activity_list = activities.all_user_group_activities()
+    formatted = activities.format_group_activities_for_overview(activity_list)
+    return render_template("all_group_activities.html", 
+                           activity_list=formatted
+                           )
+
 @app.route("/add_activity", methods=["GET", "POST"])
 def add_activity():
     if request.method == "GET":

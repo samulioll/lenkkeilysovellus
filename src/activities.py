@@ -40,6 +40,11 @@ def all_user_activities():
     result = db.session.execute(sql, {"user_id":session["user_id"]})
     return result.fetchall()
 
+def all_user_group_activities():
+    sql = text("SELECT DISTINCT A.* FROM activities A, groupmembers G WHERE A.visible=TRUE AND A.user_id=G.user_id AND G.user_id IN (SELECT DISTINCT U.id FROM users U, groupmembers G WHERE U.id=G.user_id AND G.group_id IN (SELECT DISTINCT group_id FROM groupmembers WHERE user_id=:user_id)) ORDER BY A.id DESC")
+    result = db.session.execute(sql, {"user_id":session["user_id"]})
+    return result.fetchall()
+
 def format_activities_for_overview(list):
     activities = []
     for activity in list:
