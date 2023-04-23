@@ -42,13 +42,14 @@ Sovelluksen perusrakenne ja suurin osa suunnitellusta toiminnallisuudesta on kas
 	- Toistaiseksi uusien reittien lisääminen ei ole mahdollista, mutta se ominaisuus on tulossa.
 	- Aktiviteettien kommentointi ei ole vielä mahdollista, pl. aktiviteetin lisäyksen yhteydessä tehtävä mahdollinen oma kommentti.
 	- Käyttäjät näkevät listan viimeaikaisista aktiviteeteistaan dashboard-sivulla. (Aktiviteettien formatointi on vielä tekemättä)
-	- Käyttäjät näkevät listan omien ryhmien jäsenten viimeaikaisista aktiviteeteista dashboard-sivulla.
-	- Tulevaisuudessa dashboard-sivulta näkee myös tiivistetysti tilastoja omista aktiviteeteista.
+	- Kaikki omat aktiviteetit löytyvät linkin takaa.
+	- Tulevaisuudessa dashboard-sivulta näkee myös tilastoja omista aktiviteeteista.
 
 - Ryhmät
 	- Ryhmiin voi liittyä ja niistä voi poistua.
 	- Ryhmistä näkee myös niiden jäsenet.
-	- Ryhmien aktiviteettien yhteenvedon näkeminen tulee myöhemmin.
+	- Käyttäjät näkevät listan omien ryhmien jäsenten viimeaikaisista aktiviteeteista dashboard-sivulla.
+	- Kaikki omien ryhmien jäsenten aktiviteetit löytyvät linkin takaa.
 	- Uusien ryhmien luominen tulee myöhemmin.
 
 - Kommentointi
