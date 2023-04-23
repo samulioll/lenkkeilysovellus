@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %} Community page{% endblock %}
+{% block content %}
+<h2>{{ group_name }}</h2>
+<h3>Members</h3>
+<ul>
+{% for user in group_members %}
+<li>{{ user.username }}</li>
+{% endfor %}
+</ul>
+{%endblock %}

@@ -1,10 +1,16 @@
 {% extends "layout.html" %}
 {% block title %} Community page{% endblock %}
 {% block content %}
-<h2>Add new activity</h2>
 <h3>Your groups:</h3>
 {% for group in user_groups %}
-<p>{{ group.name }}</p>
+<p>
+    {{ group.name }}
+    <form action="/group_overview" method="POST">
+        <input type="hidden" id="group_id" name="group_id" value={{group.id}}>
+        <input type="hidden" id="group_name" name="group_name" value={{group.name}}>
+        <input type="submit" value="Group overview">
+    </form>
+</p>
 {% endfor %}
 <a href="/join_group">Join group</a><br>
 {% if user_groups %}
