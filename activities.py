@@ -13,11 +13,26 @@ def add_activity(form):
             sql = text("INSERT INTO activities (user_id, sport_id, route_id, duration, date, visible) VALUES (:user_id, :sport_id, :route_id, :duration, :date, TRUE)")
             db.session.execute(sql, {"user_id":int(session["user_id"]), "sport_id":int(form["sport"]), "route_id":int(form["routes"]), "duration":time, "date":str(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M"))})
             db.session.commit()
-            return (True, "")
+            if add_comment(form):
+                return (True, "")
+            else:
+                raise ValueError
         else:
             return (False, "Invalid time")
     except:
         return (False, "error in adding activity")
+
+def add_comment(form):
+    try:
+        sql = text("INSERT INTO comments (activity_id, user_id, content, date, visible) VALUES (:activity_id, :user_id, :content, :date, TRUE)")
+        act_id_fetch = db.session.execute(text("SELECT COUNT(*) FROM activities"))
+        activity_id= act_id_fetch.fetchone()[0]
+        db.session.execute(sql, {"activity_id":int(activity_id), "user_id":int(session["user_id"]), "content":str(form["comment"]), "date":str(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M"))})
+        db.session.commit()
+        print("test")
+        return True
+    except:
+        return False
 
 def check_valid_time(parts: list):
     for part in parts:
@@ -87,5 +102,3 @@ def format_group_activities_for_overview(list):
         date_str = date_parts[0] + " " + date_parts[1]
         activities.append([username, sport, activity_route, activity_length, duration_str, date_str])
     return activities
-
-

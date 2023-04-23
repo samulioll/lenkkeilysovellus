@@ -81,12 +81,13 @@ def add_activity():
                                route_list = activity_routes.get_activity_routes()
                                )
     elif request.method == "POST":
-        success, message = activities.add_activity(request.form)
+        success, error_msg = activities.add_activity(request.form)
         if success:
+            activities.add_comment(request.form["comment"])
             return redirect("/dashboard")
         else:
             return render_template("add_activity.html", 
-                                   error_message=message
+                                   error_message=error_msg
                                    )
 
 @app.route("/community")
