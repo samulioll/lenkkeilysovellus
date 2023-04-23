@@ -2,9 +2,9 @@
 {% block title %} Log in or create an account {% endblock %}
 {% block content %}
 <h2>Your last 5 activities</h2>
-{% if list %}
+{% if own_list %}
 <ul>
-    {% for activity in list %}
+    {% for activity in own_list %}
     <li>{{activity}}</li>
     {% endfor %}
 </ul>
@@ -12,6 +12,15 @@
 <p>You don't have any recorded activities yet.</p>
 {% endif %}
 <a href="/add_activity">Add activity</a> - <a href="/all_activities">All activities</a><br>
-<h2>Community feed</h2>
-<a href="/community">Community page</a><br>
+<h2>Last 5 activities by users in your groups</h2>
+{% if groups_list %}
+<ul>
+    {% for activity in groups_list %}
+    <li>{{activity}}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Users in your groups don't have any recorded activities yet.</p>
+{% endif %}
+<a href="/add_activity">Add activity</a> - <a href="/all_group_activities">All group activities</a><br>
 {%endblock %}
