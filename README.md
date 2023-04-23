@@ -13,9 +13,11 @@ Sovellus mihin käyttäjät voivat lisätä kävellen, juosten tai pyöräillen 
 
 - Ryhmät
 	- Käyttäjät voivat liittyä ryhmiin.
+	- Jokainen käyttäjä voi nähdä omien ryhmien tilastot
 
 - Lenkkien lisäys tietokantaan
 	- Käyttäjät voivat lisätä tekemiään lenkkejä ja niiden tiedot tallennetaan tietokantaan.
+	- Käyttäjät voivat kommentoida lenkkejä
 
 - Henkilökohtaiset tilastot
 	- Jokainen käyttäjä näkee monipuoliset tilastot omista lenkeistään.
@@ -26,9 +28,9 @@ Sovellus mihin käyttäjät voivat lisätä kävellen, juosten tai pyöräillen 
 - Kaikkien käyttäjien tilastot
 	- Jokainen käyttäjä voi nähdä tilastot kaikkien käyttäjien tekemistä lenkeistä, riippumatta yksityisyysasetuksista. Kokonaistilastoista ei kuitenkaan voi yksilöidä käyttäjiä.
 
-## Tilanne 2.4.
+## Tilanne 23.4.
 
-Sovelluksen perusrakenne on kasassa. Käyttäjäprofiilin luominen onnistuu ja sisään- ja uloskirjautuminen on mahdollista. Myös aktiviteettien lisäämisen peruslogiikka on kasassa, joskin alkeellisessa muodossa. Käyttäjät näkevät kaikki aktiviteettinsa omalla "dashboard"-sivulla. 
+Sovelluksen perusrakenne ja suurin osa suunnitellusta toiminnallisuudesta on kasassa.  
 
 - Käyttäjäprofiilit
 	- Sovellus tunnistaa jos käyttäjä yrittää rekisteröityä käyttäjänimellä joka on jo käytössä.
@@ -36,19 +38,27 @@ Sovelluksen perusrakenne on kasassa. Käyttäjäprofiilin luominen onnistuu ja s
 	- Sisään- ja uloskirjautuminen toimii oikein.
 
 - Aktiviteetit
-	- Aktiviteettien lisääminen onnistuu dashboard-sivun kautta. 
+	- Aktiviteettien lisääminen onnistuu. 
 	- Toistaiseksi uusien reittien lisääminen ei ole mahdollista, mutta se ominaisuus on tulossa.
-	- Aktiviteettien kommentointi ei ole vielä mahdollista.
-	- Käyttäjät näkevät listan kaikista aktiviteeteistaan dashboard-sivulla.
+	- Aktiviteettien kommentointi ei ole vielä mahdollista, pl. aktiviteetin lisäyksen yhteydessä tehtävä mahdollinen oma kommentti.
+	- Käyttäjät näkevät listan viimeaikaisista aktiviteeteistaan dashboard-sivulla.
+	- Käyttäjät näkevät listan omien ryhmien jäsenten viimeaikaisista aktiviteeteista dashboard-sivulla.
 	- Tulevaisuudessa dashboard-sivulta näkee myös tiivistetysti tilastoja omista aktiviteeteista.
 
 - Ryhmät
-	- Ei vielä toiminnallisuutta ryhmien luomiseen tai niihin liittymiseen.
-	- Ryhmien aktiviteettien yhteenvedon näkeminen tulee myös myöhemmin.
+	- Ryhmiin voi liittyä ja niistä voi poistua.
+	- Ryhmistä näkee myös niiden jäsenet.
+	- Ryhmien aktiviteettien yhteenvedon näkeminen tulee myöhemmin.
+	- Uusien ryhmien luominen tulee myöhemmin.
+
+- Kommentointi
+	- Kommenttien rakenne on jo olemassa, mutta käyttöliittymä kommentointiin on vielä kesken.
+	- Aktiviteetin lisäyksen yhteydessä voi jo jättäää oman kommentin aktiviteettiin.
+	- Tulossa myös ilmoitusjärjestelmä uusista lukemattomista kommenteista omiin aktiviteetteihin.
 
 ## Sovelluksen käynnistäminen paikallisesti
 
-Sovellus tarvitsee toimiakseen käöynnissä olevan postgresql-yhteyden. Voit asentaa ja aktivoida postgresql:n [tämän](https://github.com/hy-tsoha/local-pg) ohjeen mukaisesti. Älä unohda lopettaa skriptiä sovelluksen testaamisen jälkeen!
+Sovellus tarvitsee toimiakseen käynnissä olevan postgresql-yhteyden. Voit asentaa ja aktivoida postgresql:n [tämän](https://github.com/hy-tsoha/local-pg) ohjeen mukaisesti. Älä unohda lopettaa skriptiä sovelluksen testaamisen jälkeen!
 
 1. Kloonaa repositorio koneellesi ja luo sen juurikansioon tiedosto .env, ja lisää sen sisälle seuraavat rivit:
 ```
@@ -68,10 +78,16 @@ source venv/bin/activate
 pip install -r ./requirements.txt
 ```
 
-4. Määritä sovelluksen tietokannan skeema komennolla:
-```
-psql < schema.sql
-```
+4. Määritä sovelluksen tietokannan skeema:
+	- Jos haluat tyhjän tietokannan ilman testitietoja:
+		```
+		psql < schema.sql
+		```
+	- Jos haluat testitietokannan, jossa on lisättynä muutama ryhmä valmiiksi.
+	  Tämän version skeema myös tyhjentää taulut jos haluat nollata tietokannan helposti:
+		```
+		psql < test_schema.sql
+		```
 
 5. Voit nyt käynnistää sovelluksen komennolla:
 ```
