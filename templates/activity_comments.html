@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}Activity comments{% endblock %}
+{% block content %}
+<h2>{{ group_name }}</h2>
+<h3>Activity comments</h3>
+<ul>
+{% if comment_list %}
+{% for comment in comment_list %}
+<li>{{ comment.content }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+<form action="/add_comment" method="POST">
+    Add comment: <br>
+    <textarea name="comment" rows="3" cols="40" maxlength="500"></textarea>
+    <input type="hidden" name="activity_id" value="{{ activity_id }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
+    <input type="submit" value="Add comment">
+</form>
+
+{%endblock %}
+

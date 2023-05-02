@@ -1,6 +1,6 @@
 from app import app
-import activities, users, activity_routes, groups
-from flask import render_template, redirect, request, session
+from services.handlers import activities, users, activity_routes, groups, comments
+from flask import render_template, redirect, request, session, abort
 
 
 @app.route("/")
@@ -81,9 +81,10 @@ def add_activity():
                                route_list = activity_routes.get_activity_routes()
                                )
     elif request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         success, error_msg = activities.add_activity(request.form)
         if success:
-            activities.add_comment(request.form["comment"])
             return redirect("/dashboard")
         else:
             return render_template("add_activity.html", 
@@ -105,6 +106,8 @@ def join_group():
                                group_list=groups.get_groups()
                                )
     elif request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+                    abort(403)
         if groups.join_group(request.form):
             return redirect("/community")
         else:
@@ -120,6 +123,8 @@ def leave_group():
                                group_list=groups.get_groups()
                                )
     elif request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         if groups.leave_group(request.form):
             return redirect("/community")
         else:
@@ -135,3 +140,23 @@ def group_overview():
                                group_members=groups.group_overview(request.form), 
                                group_name=groups.get_name(request.form)
                                )
+
+@app.route("/activity_comments", methods=["GET", "POST"])
+def activity_comments():
+    if request.method == "POST":
+        return render_template("activity_comments.html",
+                               comment_list=comments.get_comments(request.form["activity_id"]),
+                               activity_id=request.form["activity_id"])
+
+@app.route("/add_comment", methods=["GET", "POST"])
+def add_comment():
+    if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
+        success, error_msg = comments.add_comment(request.form)
+        if success:
+            return render_template("dashboard.html")
+        else:
+            return render_template("activity_comments.html", 
+                                   error_message=error_msg
+                                   )

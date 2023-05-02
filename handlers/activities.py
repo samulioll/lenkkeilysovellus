@@ -3,7 +3,7 @@ from db import db
 from flask import session
 from sqlalchemy import text
 import datetime
-import users
+from services.handlers import users
 
 def add_activity(form):
     try:
@@ -77,7 +77,8 @@ def format_activities_for_overview(list):
         duration_str = str(hours) + ":" + str(mins) + ":" + str(secs)
         date_parts = activity.date.split("_")
         date_str = date_parts[0] + " " + date_parts[1]
-        activities.append([sport, activity_route, activity_length, duration_str, date_str])
+        comments = 0
+        activities.append([sport, activity_route, activity_length, duration_str, date_str, comments])
     return activities
 
 def format_group_activities_for_overview(list):
@@ -100,5 +101,6 @@ def format_group_activities_for_overview(list):
         duration_str = str(hours) + ":" + str(mins) + ":" + str(secs)
         date_parts = activity.date.split("_")
         date_str = date_parts[0] + " " + date_parts[1]
-        activities.append([username, sport, activity_route, activity_length, duration_str, date_str])
+        comments = 0
+        activities.append([username, sport, activity_route, activity_length, duration_str, date_str, comments])
     return activities

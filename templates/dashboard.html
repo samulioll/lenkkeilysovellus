@@ -1,24 +1,84 @@
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+
 {% extends "layout.html" %}
 {% block title %} Log in or create an account {% endblock %}
 {% block content %}
 <h2>Your last 5 activities</h2>
 {% if own_list %}
-<ul>
+<table>
+    <tr>
+        <th>Sport</th>
+        <th>Route</th>
+        <th>Length</th>
+        <th>Duration</th>
+        <th>Date and time</th>
+        <th>Comments</th>
+    </tr>
     {% for activity in own_list %}
-    <li>{{activity}}</li>
+    <tr>
+        <td>{{activity[1]}}</td>
+        <td>{{activity[2]}}</td>
+        <td>{{activity[3]}}</td>
+        <td>{{activity[4]}}</td>
+        <td>{{activity[5]}}</td>
+        <td>
+            <form action="/activity_comments" method="POST">
+                <input type="hidden" id="activity_id" name="activity_id" value="{{ activity[0] }}">
+                <input type="submit" value="Comments: {{activity[6]}}">
+            </form>
+        </td>
+    </tr>
     {% endfor %}
-</ul>
+</table>
 {% else %}
 <p>You don't have any recorded activities yet.</p>
 {% endif %}
 <a href="/add_activity">Add activity</a> - <a href="/all_activities">All activities</a><br>
 <h2>Last 5 activities by users in your groups</h2>
 {% if groups_list %}
-<ul>
+<table>
+    <tr>
+        <th>User</th>
+        <th>Sport</th>
+        <th>Route</th>
+        <th>Length</th>
+        <th>Duration</th>
+        <th>Date and time</th>
+        <th>Comments</th>
+    </tr>
     {% for activity in groups_list %}
-    <li>{{activity}}</li>
+    <tr>
+        <td>{{activity[1]}}</td>
+        <td>{{activity[2]}}</td>
+        <td>{{activity[3]}}</td>
+        <td>{{activity[4]}}</td>
+        <td>{{activity[5]}}</td>
+        <td>{{activity[6]}}</td>
+        <td>
+            <form action="/activity_comments" method="POST">
+                <input type="hidden" id="activity_id" name="activity_id" value="{{ activity[0] }}">
+                <input type="submit" value="Comments: {{activity[7]}}">
+            </form>
+        </td>
+    </tr>
     {% endfor %}
-</ul>
+</table>
 {% else %}
 <p>Users in your groups don't have any recorded activities yet.</p>
 {% endif %}
