@@ -9,24 +9,33 @@ Sovellus mihin käyttäjät voivat lisätä kävellen, juosten tai pyöräillen 
 ## Tarkempi kuvaus
 
 - Käyttäjäprofiili
-	- Käyttäjät voivat luoda itselleen käyttäjäprofiilin.
+	- (✓) Käyttäjät voivat luoda itselleen käyttäjäprofiilin.
 
 - Ryhmät
-	- Käyttäjät voivat liittyä ryhmiin.
-	- Jokainen käyttäjä voi nähdä omien ryhmien tilastot
+	- (_) Käyttäjät voivat luoda ryhmiä.
+	- (✓) Käyttäjät voivat liittyä ryhmiin.
+	- (✓) Käyttäjät voivat poistua ryhmistä.
+	- (✓) Jokainen käyttäjä voi nähdä omien ryhmien tilastot.
 
 - Lenkkien lisäys tietokantaan
-	- Käyttäjät voivat lisätä tekemiään lenkkejä ja niiden tiedot tallennetaan tietokantaan.
-	- Käyttäjät voivat kommentoida lenkkejä
+	- (✓) Käyttäjät voivat lisätä tekemiään lenkkejä ja niiden tiedot tallennetaan tietokantaan.
+
+- Kommentointi
+	- (✓) Käyttäjät voivat kommentoida lenkkejä.
+	- (✓) Käyttäjät voivat poistaa omia kommenttejaan.
+	- (✓) Uusista lukemattomista kommenteista tulee ilmoitus
 
 - Henkilökohtaiset tilastot
-	- Jokainen käyttäjä näkee monipuoliset tilastot omista lenkeistään.
+	- (_) Jokainen käyttäjä näkee monipuoliset tilastot omista lenkeistään.
 
 - Tietyn käyttäjän tilastot
-	- Jokainen käyttäjä voi nähdä tietyn toisen käyttäjän tilastot jos tämä käyttäjä on asettanut se julkiseksi
+	- (_) Jokainen käyttäjä voi nähdä tietyn toisen käyttäjän tilastot jos tämä käyttäjä on asettanut se julkiseksi
 
 - Kaikkien käyttäjien tilastot
-	- Jokainen käyttäjä voi nähdä tilastot kaikkien käyttäjien tekemistä lenkeistä, riippumatta yksityisyysasetuksista. Kokonaistilastoista ei kuitenkaan voi yksilöidä käyttäjiä.
+	- (_) Jokainen käyttäjä voi nähdä tilastot kaikkien käyttäjien tekemistä lenkeistä, riippumatta yksityisyysasetuksista. Kokonaistilastoista ei kuitenkaan voi yksilöidä käyttäjiä.
+
+- Kaikien ryhmien tilastot
+	- (_) Jokainen käyttäjä voi nähdä tilastot kaikkien ryhmien tekemistä lenkeistä, riippumatta yksityisyysasetuksista. Kokonaistilastoista ei kuitenkaan voi yksilöidä käyttäjiä.
 
 ## Tilanne 23.4.
 
