@@ -1,0 +1,43 @@
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+{% extends "layout.html" %}
+{% block title %}Unseen comments{% endblock %}
+{% block content %}
+    <h3>Unseen comments</h3>
+    {% if comment_list %}
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Activity</th>
+                <th>User</th>
+                <th>Comment</th>
+                <th></th>
+            </tr>
+            {% for comment in comment_list %}
+                <tr>
+                    <td>{{ comment[3] }}</td>
+                    <td>{{ comment[4] }}</td>
+                    <td>{{ comment[1] }}</td>
+                    <td>{{ comment[2] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{%endblock %}

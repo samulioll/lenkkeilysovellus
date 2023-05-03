@@ -2,16 +2,13 @@
 {% block title %} Community page{% endblock %}
 {% block content %}
 <h3>Your groups:</h3>
+<ul>
 {% for group in user_groups %}
-<p>
-    {{ group.name }}
-    <form action="/group_overview" method="POST">
-        <input type="hidden" id="group_id" name="group_id" value={{group.id}}>
-        <input type="hidden" id="group_name" name="group_name" value={{group.name}}>
-        <input type="submit" value="Group overview">
-    </form>
-</p>
+    <li>
+        <a href="/group/{{ group.id }}">{{ group.name }}</a>
+    </li>
 {% endfor %}
+</ul>
 <a href="/join_group">Join group</a><br>
 {% if user_groups %}
 <a href="/leave_group">Leave group</a><br>

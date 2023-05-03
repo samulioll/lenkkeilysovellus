@@ -37,12 +37,7 @@
         <td>{{activity[3]}}</td>
         <td>{{activity[4]}}</td>
         <td>{{activity[5]}}</td>
-        <td>
-            <form action="/activity_comments" method="POST">
-                <input type="hidden" id="activity_id" name="activity_id" value="{{ activity[0] }}">
-                <input type="submit" value="Comments: {{activity[6]}}">
-            </form>
-        </td>
+        <td>{{activity[6]}} - <a href="/activity/{{activity[0]}}/activity_comments">Show</a></td>
     </tr>
     {% endfor %}
 </table>
@@ -70,12 +65,7 @@
         <td>{{activity[4]}}</td>
         <td>{{activity[5]}}</td>
         <td>{{activity[6]}}</td>
-        <td>
-            <form action="/activity_comments" method="POST">
-                <input type="hidden" id="activity_id" name="activity_id" value="{{ activity[0] }}">
-                <input type="submit" value="Comments: {{activity[7]}}">
-            </form>
-        </td>
+        <td>{{activity[7]}} - <a href="/activity/{{activity[0]}}/activity_comments">Show</a></td>
     </tr>
     {% endfor %}
 </table>

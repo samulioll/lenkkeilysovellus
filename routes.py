@@ -1,6 +1,6 @@
 from app import app
 from services.handlers import activities, users, activity_routes, groups, comments
-from flask import render_template, redirect, request, session, abort
+from flask import render_template, redirect, request, session, abort, url_for
 
 
 @app.route("/")
@@ -87,7 +87,8 @@ def add_activity():
         if success:
             return redirect("/dashboard")
         else:
-            return render_template("add_activity.html", 
+            return render_template("add_activity.html",
+                                   route_list = activity_routes.get_activity_routes(),
                                    error_message=error_msg
                                    )
 
@@ -133,30 +134,54 @@ def leave_group():
                                    error_message="Error in leaving group"
                                    )
         
-@app.route("/group_overview", methods=["GET", "POST"])
-def group_overview():
-    if request.method == "POST":
+@app.route("/group/<int:group_id>", methods=["GET", "POST"])
+def group(group_id):
+    if request.method == "GET":
         return render_template("group_overview.html", 
-                               group_members=groups.group_overview(request.form), 
-                               group_name=groups.get_name(request.form)
+                               group_members=groups.group_overview(group_id), 
+                               group_name=groups.get_name(group_id)
                                )
 
-@app.route("/activity_comments", methods=["GET", "POST"])
-def activity_comments():
-    if request.method == "POST":
+@app.route("/activity/<int:activity_id>/activity_comments", methods=["GET", "POST"])
+def activity_comments(activity_id):
+    if request.method == "GET":
         return render_template("activity_comments.html",
-                               comment_list=comments.get_comments(request.form["activity_id"]),
-                               activity_id=request.form["activity_id"])
-
-@app.route("/add_comment", methods=["GET", "POST"])
-def add_comment():
+                               comment_list=comments.get_comments(activity_id),
+                               activity_id=activity_id)
     if request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
-        success, error_msg = comments.add_comment(request.form)
-        if success:
-            return render_template("dashboard.html")
+        if request.form["action"] == "delete":
+            success, error_msg = comments.delete_comment(request.form)
+            if success:
+                return render_template("activity_comments.html",
+                                    comment_list=comments.get_comments(activity_id),
+                                    activity_id=activity_id)
+            else:
+                return render_template("activity_comments.html",
+                                    comment_list=comments.get_comments(activity_id),
+                                    activity_id=activity_id,
+                                    error_message=error_msg)
         else:
-            return render_template("activity_comments.html", 
-                                   error_message=error_msg
-                                   )
+            success, error_msg = comments.add_comment(request.form)
+            if success:
+                return render_template("activity_comments.html",
+                                    comment_list=comments.get_comments(activity_id),
+                                    activity_id=activity_id)
+            else:
+                return render_template("activity_comments.html",
+                                    comment_list=comments.get_comments(activity_id),
+                                    activity_id=activity_id,
+                                    error_message=error_msg)
+
+@app.route("/<int:user_id>/new_comments")
+def new_comments(user_id):
+    if session["user_id"] == user_id:
+        c_list=comments.get_unseen_comments()
+        if c_list:
+            if comments.mark_as_read():
+                session["unseen_comments"] = comments.get_unseen_count()
+        return render_template("new_comments.html",
+                               comment_list= c_list)
+    else:
+        return redirect("/")

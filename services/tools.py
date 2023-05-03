@@ -10,3 +10,8 @@ def format_time(time):
     mins = (time % 3600) // 60
     secs = (time % 3600) % 60
     return str(hours) + ":" + str(mins) + ":" + str(secs)
+
+def format_date(date):
+    parts = date.split("_")
+    formatted =  parts[0] + " " + parts[1]
+    return formatted

@@ -1,6 +1,7 @@
 import secrets
 from app import app
 from db import db
+from . import comments
 from flask import session
 from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -16,6 +17,7 @@ def login(username, password):
             session["user_id"] = user.id
             session["username"] = username
             session["csrf_token"] = secrets.token_hex(16)
+            session["unseen_comments"] = comments.get_unseen_count()
             return True
         else:
             return False
@@ -27,6 +29,7 @@ def logout():
     del session["user_id"]
     del session["username"]
     del session["csrf_token"]
+    del session["unseen_comments"]
         
 def register(username, password):
     sql = text("SELECT id FROM users WHERE username=:username")

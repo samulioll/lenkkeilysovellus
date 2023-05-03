@@ -1,22 +1,63 @@
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+</style>
+
 {% extends "layout.html" %}
 {% block title %}Activity comments{% endblock %}
 {% block content %}
-<h2>{{ group_name }}</h2>
 <h3>Activity comments</h3>
-<ul>
-{% if comment_list %}
-{% for comment in comment_list %}
-<li>{{ comment.content }}</li>
-{% endfor %}
-</ul>
+  {% if comment_list %}
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>User</th>
+      <th>Comment</th>
+      <th></th>
+    </tr>
+    {% for comment in comment_list %}
+    <tr>
+      <td>{{ comment[3] }}</td>
+      <td>{{ comment[1] }}</td>
+      <td>{{ comment[2] }}</td>
+      {% if session["user_id"] == comment[0] %}
+      <td>
+        <form action="/activity/{{activity_id}}/activity_comments" method="POST">
+          <input type="hidden" name="action" value="delete">
+          <input type="hidden" name="comment_id" value="{{ comment[4] }}">
+          <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
+          <input type="submit" value="Delete comment">
+        </form>
+      </td>
+      {% else %}
+      <td></td>
+      {% endif %}
+
+      {% endfor %}
+    </tr>
+</table>
 {% endif %}
-<form action="/add_comment" method="POST">
-    Add comment: <br>
-    <textarea name="comment" rows="3" cols="40" maxlength="500"></textarea>
-    <input type="hidden" name="activity_id" value="{{ activity_id }}">
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
-    <input type="submit" value="Add comment">
+<form action="/activity/{{activity_id}}/activity_comments" method="POST">
+  Add comment: <br>
+  <textarea name="comment" rows="3" cols="40" maxlength="500"></textarea>
+  <input type="hidden" name="action" value="add">
+  <input type="hidden" name="activity_id" value="{{ activity_id }}">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
+  <input type="submit" value="Add comment">
 </form>
 
 {%endblock %}
-
