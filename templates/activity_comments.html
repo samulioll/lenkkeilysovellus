@@ -20,35 +20,35 @@
 {% extends "layout.html" %}
 {% block title %}Activity comments{% endblock %}
 {% block content %}
-<h3>Activity comments</h3>
-  {% if comment_list %}
-  <table>
-    <tr>
-      <th>Date</th>
-      <th>User</th>
-      <th>Comment</th>
-      <th></th>
-    </tr>
-    {% for comment in comment_list %}
-    <tr>
-      <td>{{ comment[3] }}</td>
-      <td>{{ comment[1] }}</td>
-      <td>{{ comment[2] }}</td>
-      {% if session["user_id"] == comment[0] %}
-      <td>
-        <form action="/activity/{{activity_id}}/activity_comments" method="POST">
-          <input type="hidden" name="action" value="delete">
-          <input type="hidden" name="comment_id" value="{{ comment[4] }}">
-          <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
-          <input type="submit" value="Delete comment">
-        </form>
-      </td>
-      {% else %}
-      <td></td>
-      {% endif %}
+<h3>{{activity_info}}</h3>
+{% if comment_list %}
+<table>
+  <tr>
+    <th>Date</th>
+    <th>User</th>
+    <th>Comment</th>
+    <th></th>
+  </tr>
+  {% for comment in comment_list %}
+  <tr>
+    <td>{{ comment[3] }}</td>
+    <td>{{ comment[1] }}</td>
+    <td>{{ comment[2] }}</td>
+    {% if session["user_id"] == comment[0] %}
+    <td>
+      <form action="/activity/{{activity_id}}/activity_comments" method="POST">
+        <input type="hidden" name="action" value="delete">
+        <input type="hidden" name="comment_id" value="{{ comment[4] }}">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
+        <input type="submit" value="Delete comment">
+      </form>
+    </td>
+    {% else %}
+    <td></td>
+    {% endif %}
 
-      {% endfor %}
-    </tr>
+    {% endfor %}
+  </tr>
 </table>
 {% endif %}
 <form action="/activity/{{activity_id}}/activity_comments" method="POST">

@@ -147,7 +147,8 @@ def activity_comments(activity_id):
     if request.method == "GET":
         return render_template("activity_comments.html",
                                comment_list=comments.get_comments(activity_id),
-                               activity_id=activity_id)
+                               activity_id=activity_id,
+                               activity_info = activities.activity_info_short(activity_id))
     if request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
