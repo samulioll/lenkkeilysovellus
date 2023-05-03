@@ -10,7 +10,8 @@ DROP TABLE IF EXISTS comments CASCADE;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE,
-    password TEXT
+    password TEXT,
+    visible BOOLEAN
 );
 
 CREATE TABLE groups (

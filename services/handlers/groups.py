@@ -40,16 +40,15 @@ def get_groups():
     return result.fetchall()
 
 def group_overview(group_id):
-    name = get_name(group_id)
     total_dist = get_total_distance(group_id)
     walked = get_distance_walked(group_id)
     ran = get_distance_ran(group_id)
     cycled = get_distance_cycled(group_id)
     total_time = tools.format_time(get_total_time(group_id))
-    return (name, total_dist, walked, ran, cycled, total_time)
+    return (total_dist, walked, ran, cycled, total_time)
 
 def get_members(group_id):
-    sql = text("""SELECT U.username 
+    sql = text("""SELECT U.id, U.username 
                   FROM users U, groupmembers G 
                   WHERE U.id=G.user_id and G.group_id=:group_id AND G.visible=TRUE""")
     result = db.session.execute(sql, {"group_id":group_id})

@@ -9,7 +9,7 @@
     <a href="/dashboard">Dashboard</a> - 
     <a href="/community">Community page</a> 
     {% if session.unseen_comments > 0%}
-        <a href="/{{session.user_id}}/new_comments"> - {{session.unseen_comments}} new comments!</a><br>
+        <a href="/user/{{session.user_id}}/new_comments"> - {{session.unseen_comments}} new comments!</a><br>
     {% endif %}
 {% else %}
     <p>

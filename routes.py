@@ -180,7 +180,16 @@ def activity_comments(activity_id):
                                     activity_id=activity_id,
                                     error_message=error_msg)
 
-@app.route("/<int:user_id>/new_comments")
+@app.route("/user/<int:user_id>")
+def user_overview(user_id):
+    if users.is_visible(user_id) or user_id == session["user_id"]:
+        u_username = users.get_username(user_id)
+        u_overview = users.user_overview(user_id)
+        return render_template("user_overview.html",
+                            username=u_username,
+                            user_overview=u_overview)
+
+@app.route("/user/<int:user_id>/new_comments")
 def new_comments(user_id):
     if session["user_id"] == user_id:
         c_list=comments.get_unseen_comments()

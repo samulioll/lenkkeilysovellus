@@ -2,6 +2,7 @@ import secrets
 from app import app
 from db import db
 from . import comments
+from services import tools
 from flask import session
 from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -39,19 +40,104 @@ def register(username, password):
         return False
     else:
         hash_value = generate_password_hash(password)
-        try:
-            sql = text("INSERT INTO users (username, password) VALUES(:username, :password)")
-            db.session.execute(sql, {"username":username, "password":hash_value})
-            db.session.commit()
-            return login(username, password)
-        except:
-            return False
+
+        sql = text("""INSERT INTO users 
+                        (username, password, visible) 
+                        VALUES 
+                        (:username, :password, TRUE)""")
+        db.session.execute(sql, {"username":username, "password":hash_value})
+        db.session.commit()
+        return login(username, password)
+
         
 def get_username(user_id):
     try:
-        username_sql = text("SELECT username FROM users WHERE id=:user_id")
-        username_fetch = db.session.execute(username_sql, {"user_id":user_id})
-        username = username_fetch.fetchone()[0]
-        return username
+        sql = text("SELECT username FROM users WHERE id=:user_id")
+        result = db.session.execute(sql, {"user_id":user_id})
+        return result.fetchone()[0]
     except:
         return False
+
+def is_visible(user_id):
+    sql = text("""SELECT visible
+                  FROM users
+                  WHERE id=:user_id""")
+    result = db.session.execute(sql, {"user_id":user_id})
+    return result.fetchone()[0]
+
+def make_visible():
+    try:
+        sql = text("""UPDATE users
+                    visible=TRUE
+                    WHERE id=:user_id""")
+        db.session.execute(sql, {"user_id":session["user_id"]})
+        db.session.commit()
+        return True
+    except:
+        return False
+    
+def make_private():
+    try:
+        sql = text("""UPDATE users
+                    visible=FALSE
+                    WHERE id=:user_id""")
+        db.session.execute(sql, {"user_id":session["user_id"]})
+        db.session.commit()
+        return True
+    except:
+        return False
+    
+def user_overview(user_id):
+    total_dist = get_total_distance(user_id)
+    walked = get_distance_walked(user_id)
+    ran = get_distance_ran(user_id)
+    cycled = get_distance_cycled(user_id)
+    total_time = tools.format_time(get_total_time(user_id))
+    return (total_dist, walked, ran, cycled, total_time)
+
+def get_total_distance(user_id):
+    sql = text("""SELECT SUM(R.length)
+                  FROM activities A LEFT JOIN routes R 
+                  ON A.route_id=R.id 
+                  WHERE A.user_id IN 
+                  (SELECT user_id FROM groupmembers WHERE user_id=:user_id)""")
+    result = db.session.execute(sql, {"user_id":user_id})
+    return result.fetchone()[0]
+
+def get_distance_walked(user_id):
+    sql = text("""SELECT SUM(R.length)
+                  FROM activities A LEFT JOIN routes R 
+                  ON A.route_id=R.id 
+                  WHERE A.user_id IN 
+                  (SELECT user_id FROM groupmembers WHERE user_id=:user_id)
+                  AND A.sport_id=1""")
+    result = db.session.execute(sql, {"user_id":user_id})
+    return result.fetchone()[0]
+
+def get_distance_ran(user_id):
+    sql = text("""SELECT SUM(R.length)
+                  FROM activities A LEFT JOIN routes R 
+                  ON A.route_id=R.id 
+                  WHERE A.user_id IN 
+                  (SELECT user_id FROM groupmembers WHERE user_id=:user_id)
+                  AND A.sport_id=2""")
+    result = db.session.execute(sql, {"user_id":user_id})
+    return result.fetchone()[0]
+
+def get_distance_cycled(user_id):
+    sql = text("""SELECT SUM(R.length)
+                  FROM activities A LEFT JOIN routes R 
+                  ON A.route_id=R.id 
+                  WHERE A.user_id IN 
+                  (SELECT user_id FROM groupmembers WHERE user_id=:user_id)
+                  AND A.sport_id=3""")
+    result = db.session.execute(sql, {"user_id":user_id})
+    return result.fetchone()[0]
+
+def get_total_time(user_id):
+    sql = text("""SELECT SUM(duration)
+                  FROM activities
+                  WHERE user_id IN 
+                  (SELECT user_id FROM groupmembers WHERE user_id=:user_id)""")
+    result = db.session.execute(sql, {"user_id":user_id})
+    return result.fetchone()[0]

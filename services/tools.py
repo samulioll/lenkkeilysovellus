@@ -6,6 +6,8 @@ def return_valid_time(time):
     return int(parts[2]) + (60 * int(parts[1])) + (3600 * int(parts[0]))
 
 def format_time(time):
+    if not time:
+        return "00:00:00"
     hours = time // 3600
     mins = (time % 3600) // 60
     secs = (time % 3600) % 60
