@@ -38,7 +38,7 @@ def get_groups():
     result = db.session.execute(text("SELECT * FROM groups WHERE visible=TRUE"))
     return result.fetchall()
 
-def group_overview(group_id):
+def get_members(group_id):
     sql = text("""SELECT U.username 
                   FROM users U, groupmembers G 
                   WHERE U.id=G.user_id and G.group_id=:group_id AND G.visible=TRUE""")
@@ -47,5 +47,44 @@ def group_overview(group_id):
 
 def get_name(group_id):
     sql = text("SELECT name FROM groups WHERE id=:group_id")
+    result = db.session.execute(sql, {"group_id":group_id})
+    return result.fetchone()[0]
+
+def get_total_distance(group_id):
+    sql = text("""SELECT SUM(R.length)
+                  FROM activities A LEFT JOIN routes R 
+                  ON A.route_id=R.id 
+                  WHERE A.user_id IN 
+                  (SELECT user_id FROM groupmembers WHERE group_id=:group_id)""")
+    result = db.session.execute(sql, {"group_id":group_id})
+    return result.fetchone()[0]
+
+def get_distance_walked(group_id):
+    sql = text("""SELECT SUM(R.length)
+                  FROM activities A LEFT JOIN routes R 
+                  ON A.route_id=R.id 
+                  WHERE A.user_id IN 
+                  (SELECT user_id FROM groupmembers WHERE group_id=:group_id)
+                  AND A.sport_id=1""")
+    result = db.session.execute(sql, {"group_id":group_id})
+    return result.fetchone()[0]
+
+def get_distance_ran(group_id):
+    sql = text("""SELECT SUM(R.length)
+                  FROM activities A LEFT JOIN routes R 
+                  ON A.route_id=R.id 
+                  WHERE A.user_id IN 
+                  (SELECT user_id FROM groupmembers WHERE group_id=:group_id)
+                  AND A.sport_id=2""")
+    result = db.session.execute(sql, {"group_id":group_id})
+    return result.fetchone()[0]
+
+def get_distance_cycled(group_id):
+    sql = text("""SELECT SUM(R.length)
+                  FROM activities A LEFT JOIN routes R 
+                  ON A.route_id=R.id 
+                  WHERE A.user_id IN 
+                  (SELECT user_id FROM groupmembers WHERE group_id=:group_id)
+                  AND A.sport_id=3""")
     result = db.session.execute(sql, {"group_id":group_id})
     return result.fetchone()[0]

@@ -137,10 +137,11 @@ def leave_group():
 @app.route("/group/<int:group_id>", methods=["GET", "POST"])
 def group(group_id):
     if request.method == "GET":
+        g_members = groups.get_members(group_id)
+        g_name = groups.get_name(group_id)
         return render_template("group_overview.html", 
-                               group_members=groups.group_overview(group_id), 
-                               group_name=groups.get_name(group_id)
-                               )
+                               group_members=g_members, 
+                               group_name=g_name)
 
 @app.route("/activity/<int:activity_id>/activity_comments", methods=["GET", "POST"])
 def activity_comments(activity_id):
