@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block title %} Community page{% endblock %}
 {% block content %}
+<h3>Leaderboards:</h3>
+<ul>
+    <li><a href="/leaderboard/1">Users</a></li>
+    <li><a href="/leaderboard/2">Groups</a></li>
+</ul>
 <h3>Your groups:</h3>
 <ul>
 {% for group in user_groups %}

@@ -139,9 +139,11 @@ def group(group_id):
     if request.method == "GET":
         g_members = groups.get_members(group_id)
         g_name = groups.get_name(group_id)
+        g_overview = groups.group_overview(group_id)
         return render_template("group_overview.html", 
                                group_members=g_members, 
-                               group_name=g_name)
+                               group_name=g_name,
+                               group_overview = g_overview)
 
 @app.route("/activity/<int:activity_id>/activity_comments", methods=["GET", "POST"])
 def activity_comments(activity_id):
@@ -158,7 +160,8 @@ def activity_comments(activity_id):
             if success:
                 return render_template("activity_comments.html",
                                     comment_list=comments.get_comments(activity_id),
-                                    activity_id=activity_id)
+                                    activity_id=activity_id,
+                                    activity_info = activities.activity_info_short(activity_id))
             else:
                 return render_template("activity_comments.html",
                                     comment_list=comments.get_comments(activity_id),
@@ -169,7 +172,8 @@ def activity_comments(activity_id):
             if success:
                 return render_template("activity_comments.html",
                                     comment_list=comments.get_comments(activity_id),
-                                    activity_id=activity_id)
+                                    activity_id=activity_id,
+                                    activity_info = activities.activity_info_short(activity_id))
             else:
                 return render_template("activity_comments.html",
                                     comment_list=comments.get_comments(activity_id),
@@ -187,3 +191,11 @@ def new_comments(user_id):
                                comment_list= c_list)
     else:
         return redirect("/")
+
+@app.route("/leaderboard/<int:choice>")
+def leaderboard(choice):
+    if choice == 1:
+        return render_template("leaderboard_users.html",
+                               u_list = activities.user_leaderboard())
+    else:
+        return render_template("leaderboard_groups.html")

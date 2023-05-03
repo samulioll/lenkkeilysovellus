@@ -2,6 +2,7 @@ from app import app
 from db import db
 from flask import session
 from sqlalchemy import text
+from services import tools
 
 def join_group(form):
     try:
@@ -37,6 +38,15 @@ def user_groups_overview():
 def get_groups():
     result = db.session.execute(text("SELECT * FROM groups WHERE visible=TRUE"))
     return result.fetchall()
+
+def group_overview(group_id):
+    name = get_name(group_id)
+    total_dist = get_total_distance(group_id)
+    walked = get_distance_walked(group_id)
+    ran = get_distance_ran(group_id)
+    cycled = get_distance_cycled(group_id)
+    total_time = tools.format_time(get_total_time(group_id))
+    return (name, total_dist, walked, ran, cycled, total_time)
 
 def get_members(group_id):
     sql = text("""SELECT U.username 
@@ -86,5 +96,13 @@ def get_distance_cycled(group_id):
                   WHERE A.user_id IN 
                   (SELECT user_id FROM groupmembers WHERE group_id=:group_id)
                   AND A.sport_id=3""")
+    result = db.session.execute(sql, {"group_id":group_id})
+    return result.fetchone()[0]
+
+def get_total_time(group_id):
+    sql = text("""SELECT SUM(duration)
+                  FROM activities
+                  WHERE user_id IN 
+                  (SELECT user_id FROM groupmembers WHERE group_id=:group_id)""")
     result = db.session.execute(sql, {"group_id":group_id})
     return result.fetchone()[0]

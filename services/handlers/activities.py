@@ -115,18 +115,19 @@ def format_group_activities_for_overview(list):
     return activities
 
 def activity_info_short(activity_id):
-    sql = text("""SELECT *
-                  FROM activities 
-                  WHERE id=:activity_id """)
+    sql = text("""SELECT U.username, A.*
+                  FROM users U,activities A
+                  WHERE U.id=A.user_id AND A.id=:activity_id """)
     result = db.session.execute(sql, {"activity_id":activity_id})
     return format_activity_short(result.fetchone())
 
 def format_activity_short(activity):
+    username = activity.username
     sport = get_sport(activity.sport_id).capitalize()
     length = get_length(activity.route_id)
     parts = activity.date.split("_")
     date = parts[0]
-    return sport + " | " + str(length) + "km | " + date
+    return username + " /// " + sport + " | " + str(length) + "km | " + date
 
 def get_sport(sport_id):
     sport_sql = text("SELECT name FROM sports WHERE id=:sport_id")
@@ -141,3 +142,6 @@ def get_length(route_id):
     length_fetch = db.session.execute(length_sql, {"route_id":route_id})
     length = length_fetch.fetchone()[0]
     return length
+
+def user_leaderboard():
+    pass
