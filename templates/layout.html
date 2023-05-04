@@ -4,7 +4,9 @@
 {% if session.user_id %}
     <p>
         You are logged in as {{ session.username}}<br>
-        <a href="/logout">Log out</a><br>
+        <a href="/user/{{session.user_id}}">Profile page</a> - 
+        <a href="/logout">Log out</a>
+        <br>
     </p>
     <a href="/dashboard">Dashboard</a> - 
     <a href="/community">Community page</a> 
