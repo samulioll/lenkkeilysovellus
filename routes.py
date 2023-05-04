@@ -127,7 +127,9 @@ def leave_group():
     elif request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
-        if groups.leave_group(request.form):
+        group_id = request.form["groups"]
+        user_id = request.form["user_id"]
+        if groups.leave_group(group_id, user_id):
             return redirect("/community")
         else:
             return render_template("leave_group.html", 
@@ -154,17 +156,34 @@ def create_group():
 @app.route("/group/<int:group_id>", methods=["GET", "POST"])
 def group(group_id):
     if request.method == "GET":
-        g_members = groups.get_members(group_id)
+        g_members = groups.get_normal_members(group_id)
         g_name = groups.get_name(group_id)
         g_overview = groups.group_overview(group_id)
         g_founder = groups.get_founder(group_id)
         g_admins = groups.get_admins(group_id)
+        g_admin_right = True if session["username"] in g_admins[0] else False
         return render_template("group_overview.html", 
                                group_members=g_members, 
                                group_name=g_name,
                                group_overview = g_overview,
                                group_founder=g_founder,
-                               group_admins=g_admins)
+                               group_admins=g_admins,
+                               admin_rights=g_admin_right,
+                               group_id=group_id)
+
+@app.route("/group/<int:group_id>/manage", methods=["GET", "POST"])
+def manage_group(group_id):
+    if request.method == "GET":
+        g_members = groups.get_normal_members(group_id)
+        g_name = groups.get_name(group_id)
+        g_founder = groups.get_founder(group_id)
+        g_admins = groups.get_admins(group_id)
+        return render_template("group_manager.html",
+                               group_name=g_name,
+                               group_members=g_members,
+                               group_founder=g_founder,
+                               group_admins=g_admins,
+                               group_id=group_id)
 
 @app.route("/activity/<int:activity_id>/activity_comments", methods=["GET", "POST"])
 def activity_comments(activity_id):

@@ -22,13 +22,13 @@ def join_group_founder(group_id):
     db.session.commit()
     return True
 
-def leave_group(form):
+def leave_group(group_id, user_id):
     try:
         sql = text("""UPDATE groupmembers 
                       SET visible=FALSE 
                       WHERE user_id=:user_id AND group_id=:group_id""")
-        db.session.execute(sql, {"user_id":session["user_id"], 
-                                 "group_id":form["groups"]})
+        db.session.execute(sql, {"user_id":user_id, 
+                                 "group_id":group_id})
         db.session.commit()
         return True
     except:
@@ -67,13 +67,6 @@ def group_overview(group_id):
     cycled = get_distance_cycled(group_id)
     total_time = tools.format_time(get_total_time(group_id))
     return (total_dist, walked, ran, cycled, total_time)
-
-def get_members(group_id):
-    sql = text("""SELECT U.id, U.username 
-                  FROM users U, groupmembers G 
-                  WHERE U.id=G.user_id and G.group_id=:group_id AND G.visible=TRUE""")
-    result = db.session.execute(sql, {"group_id":group_id})
-    return result.fetchall()
 
 def get_name(group_id):
     sql = text("SELECT name FROM groups WHERE id=:group_id")
@@ -127,17 +120,32 @@ def get_total_time(group_id):
     result = db.session.execute(sql, {"group_id":group_id})
     return result.fetchone()[0]
 
+def get_all_members(group_id):
+    sql = text("""SELECT U.id, U.username 
+                  FROM users U, groupmembers G 
+                  WHERE U.id=G.user_id and G.group_id=:group_id AND G.visible=TRUE""")
+    result = db.session.execute(sql, {"group_id":group_id})
+    return result.fetchall()
+
+def get_normal_members(group_id):
+    sql = text("""SELECT U.id, U.username 
+                  FROM users U, groupmembers G 
+                  WHERE U.id=G.user_id and G.group_id=:group_id AND G.visible=TRUE
+                  AND founder_status=FALSE AND admin_status=FALSE""")
+    result = db.session.execute(sql, {"group_id":group_id})
+    return result.fetchall()
+
 def get_founder(group_id):
-    sql = text("""SELECT U.username
+    sql = text("""SELECT U.id, U.username
                   FROM users U, groupmembers G
                   WHERE U.id=G.user_id AND G.group_id=:group_id AND G.founder_status=TRUE""")
     result = db.session.execute(sql, {"group_id":group_id})
-    return result.fetchone()[0]
+    return result.fetchone()
 
 def get_admins(group_id):
-    sql = text("""SELECT U.username
+    sql = text("""SELECT U.id, U.username
                   FROM users U, groupmembers G
                   WHERE U.id=G.user_id AND G.group_id=:group_id 
-                  AND G.admin_status=TRUE AND founder_status=FALSE""")
+                  AND G.admin_status=TRUE""")
     result = db.session.execute(sql, {"group_id":group_id})
     return result.fetchall()

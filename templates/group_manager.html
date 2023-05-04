@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block title %} Community page{% endblock %}
+{% block content %}
+<h2>{{ group_name }}</h2>
+<h3>Members</h3>
+<ul>
+  {% for user in group_members %}
+    {% if user.username == group_founder %}
+      <li><a href="/user/{{user.id}}">{{ user.username }}</a> (founder)</li>
+    {% endif %}
+  {% endfor %}
+  {% for user in group_members %}
+    {% if user.username in group_admins and user.username != group_founder %}
+      <li><a href="/user/{{user.id}}">{{ user.username }}</a> (admin)</li>
+    {% endif %}
+  {% endfor %}
+  {% for user in group_members %}
+    {% if user.username not in group_admins and user.username != group_founder %}
+        <li>
+            <a href="/user/{{user.id}}">{{ user.username }}</a> | 
+            <form action="/leave_group" method="POST">
+                <input type="hidden" name="groups" value={{group_id}}>
+                <input type="hidden" name="user_id" value={{user.id}}>
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                <input type="submit" value="Remove user">
+              </form>
+        </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{%endblock %}

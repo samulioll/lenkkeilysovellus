@@ -20,7 +20,12 @@
 {% block title %} Community page{% endblock %}
 {% block content %}
 <h2>{{ group_name }}</h2>
+{% if admin_rights %}
+    <a href="/group/{{group_id}}/manage">Manage group</a>
+{% endif %}
+<br><br>
 <h3>General statistics</h3>
+
 <table>
     <tr>
         <th>Total distance</th>
@@ -39,22 +44,16 @@
 </table>
 <h3>Members</h3>
 <ul>
-  {% for user in group_members %}
-    {% if user.username == group_founder %}
-      <li><a href="/user/{{user.id}}">{{ user.username }}</a> (founder)</li>
+  <li><a href="/user/{{group_founder.id}}">{{ group_founder.username }}</a> (founder)</li>
+  <br>
+  {% for admin in group_admins %}
+    {%if admin.username != group_founder.username%}
+      <li><a href="/user/{{admin.id}}">{{ admin.username }}</a> (admin)</li>
     {% endif %}
   {% endfor %}
   <br>
   {% for user in group_members %}
-    {% if user.username in group_admins and user.username != group_founder %}
-      <li><a href="/user/{{user.id}}">{{ user.username }}</a> (admin)</li>
-    {% endif %}
-  {% endfor %}
-  <br>
-  {% for user in group_members %}
-    {% if user.username not in group_admins and user.username != group_founder %}
-      <li><a href="/user/{{user.id}}">{{ user.username }}</a></li>
-    {% endif %}
+    <li><a href="/user/{{user.id}}">{{ user.username }}</a></li>
   {% endfor %}
 </ul>
 {%endblock %}
