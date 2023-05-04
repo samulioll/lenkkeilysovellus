@@ -19,6 +19,8 @@ Sovellus mihin käyttäjät voivat lisätä kävellen, juosten tai pyöräillen 
 
 - Ryhmät
 	- (_) Käyttäjät voivat luoda ryhmiä.
+	- (_) Ryhmän ylläpitäjät voivat poistaa jäseniä.
+	- (_) Ryhmän perustaja voi poistaa ryhmän.
 	- (✓) Käyttäjät voivat liittyä ryhmiin.
 	- (✓) Käyttäjät voivat poistua ryhmistä.
 
