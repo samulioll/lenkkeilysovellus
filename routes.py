@@ -180,14 +180,27 @@ def activity_comments(activity_id):
                                     activity_id=activity_id,
                                     error_message=error_msg)
 
-@app.route("/user/<int:user_id>")
+@app.route("/user/<int:user_id>", methods=["GET", "POST"])
 def user_overview(user_id):
-    if users.is_visible(user_id) or user_id == session["user_id"]:
-        u_username = users.get_username(user_id)
-        u_overview = users.user_overview(user_id)
-        return render_template("user_overview.html",
-                            username=u_username,
-                            user_overview=u_overview)
+    if request.method == "GET":
+        if users.is_public(user_id) or user_id == session["user_id"]:
+            u_username = users.get_username(user_id)
+            u_overview = users.user_overview(user_id)
+            u_public = users.is_public(user_id)
+            return render_template("user_overview.html",
+                                user_id=user_id,
+                                user_public = u_public,
+                                username=u_username,
+                                user_overview=u_overview)
+    else:
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
+        if request.form["make_profile"] == "public":
+            users.make_public()
+            return redirect("/user/"+str(user_id))
+        else:
+            users.make_private()
+            return redirect("/user/"+str(user_id))
 
 @app.route("/user/<int:user_id>/new_comments")
 def new_comments(user_id):

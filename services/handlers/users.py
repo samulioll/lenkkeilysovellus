@@ -42,7 +42,7 @@ def register(username, password):
         hash_value = generate_password_hash(password)
 
         sql = text("""INSERT INTO users 
-                        (username, password, visible) 
+                        (username, password, public) 
                         VALUES 
                         (:username, :password, TRUE)""")
         db.session.execute(sql, {"username":username, "password":hash_value})
@@ -58,18 +58,18 @@ def get_username(user_id):
     except:
         return False
 
-def is_visible(user_id):
-    sql = text("""SELECT visible
+def is_public(user_id):
+    sql = text("""SELECT public
                   FROM users
                   WHERE id=:user_id""")
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchone()[0]
 
-def make_visible():
+def make_public():
     try:
         sql = text("""UPDATE users
-                    visible=TRUE
-                    WHERE id=:user_id""")
+                      SET public=TRUE
+                      WHERE id=:user_id""")
         db.session.execute(sql, {"user_id":session["user_id"]})
         db.session.commit()
         return True
@@ -79,8 +79,8 @@ def make_visible():
 def make_private():
     try:
         sql = text("""UPDATE users
-                    visible=FALSE
-                    WHERE id=:user_id""")
+                      SET public=FALSE
+                      WHERE id=:user_id""")
         db.session.execute(sql, {"user_id":session["user_id"]})
         db.session.commit()
         return True
