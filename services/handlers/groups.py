@@ -126,3 +126,18 @@ def get_total_time(group_id):
                   (SELECT user_id FROM groupmembers WHERE group_id=:group_id)""")
     result = db.session.execute(sql, {"group_id":group_id})
     return result.fetchone()[0]
+
+def get_founder(group_id):
+    sql = text("""SELECT U.username
+                  FROM users U, groupmembers G
+                  WHERE U.id=G.user_id AND G.group_id=:group_id AND G.founder_status=TRUE""")
+    result = db.session.execute(sql, {"group_id":group_id})
+    return result.fetchone()[0]
+
+def get_admins(group_id):
+    sql = text("""SELECT U.username
+                  FROM users U, groupmembers G
+                  WHERE U.id=G.user_id AND G.group_id=:group_id 
+                  AND G.admin_status=TRUE AND founder_status=FALSE""")
+    result = db.session.execute(sql, {"group_id":group_id})
+    return result.fetchall()

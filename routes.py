@@ -157,10 +157,14 @@ def group(group_id):
         g_members = groups.get_members(group_id)
         g_name = groups.get_name(group_id)
         g_overview = groups.group_overview(group_id)
+        g_founder = groups.get_founder(group_id)
+        g_admins = groups.get_admins(group_id)
         return render_template("group_overview.html", 
                                group_members=g_members, 
                                group_name=g_name,
-                               group_overview = g_overview)
+                               group_overview = g_overview,
+                               group_founder=g_founder,
+                               group_admins=g_admins)
 
 @app.route("/activity/<int:activity_id>/activity_comments", methods=["GET", "POST"])
 def activity_comments(activity_id):

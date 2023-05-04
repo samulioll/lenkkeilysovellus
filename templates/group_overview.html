@@ -39,8 +39,22 @@
 </table>
 <h3>Members</h3>
 <ul>
-{% for user in group_members %}
-<li><a href="/user/{{user.id}}">{{ user.username }}</a></li>
-{% endfor %}
+  {% for user in group_members %}
+    {% if user.username == group_founder %}
+      <li><a href="/user/{{user.id}}">{{ user.username }}</a> (founder)</li>
+    {% endif %}
+  {% endfor %}
+  <br>
+  {% for user in group_members %}
+    {% if user.username in group_admins and user.username != group_founder %}
+      <li><a href="/user/{{user.id}}">{{ user.username }}</a> (admin)</li>
+    {% endif %}
+  {% endfor %}
+  <br>
+  {% for user in group_members %}
+    {% if user.username not in group_admins and user.username != group_founder %}
+      <li><a href="/user/{{user.id}}">{{ user.username }}</a></li>
+    {% endif %}
+  {% endfor %}
 </ul>
 {%endblock %}
