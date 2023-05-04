@@ -137,6 +137,36 @@ def leave_group():
                                    error_message="Error in leaving group"
                                    )
 
+@app.route("/remove_from_group", methods=["GET", "POST"])
+def remove_from_group():
+    if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
+        group_id = request.form["groups"]
+        user_id = request.form["user_id"]
+        if groups.leave_group(group_id, user_id):
+            return redirect("/group/"+str(group_id)+"/manage")
+        else:
+            return render_template("leave_group.html", 
+                                   group_list=groups.get_groups(), 
+                                   error_message="Error in leaving group"
+                                   )
+
+@app.route("/make_admin", methods=["GET", "POST"])
+def rmake_admin():
+    if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
+        group_id = request.form["groups"]
+        user_id = request.form["user_id"]
+        if groups.make_admin(group_id, user_id):
+            return redirect("/group/"+str(group_id)+"/manage")
+        else:
+            return render_template("leave_group.html", 
+                                   group_list=groups.get_groups(), 
+                                   error_message="Error in making admin"
+                                   )
+
 @app.route("/create_group", methods=["GET", "POST"])
 def create_group():
     if request.method == "GET":
@@ -161,7 +191,9 @@ def group(group_id):
         g_overview = groups.group_overview(group_id)
         g_owner = groups.get_owner(group_id)
         g_admins = groups.get_admins(group_id)
-        g_admin_right = True if session["username"] in g_admins[0] else False
+        print(g_admins)
+        g_admin_right = True if session["username"] in g_admins[1] else False
+        print(session["username"])
         return render_template("group_overview.html", 
                                group_members=g_members, 
                                group_name=g_name,

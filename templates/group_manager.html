@@ -18,11 +18,17 @@
     {% if user.username not in group_admins and user.username != group_owner %}
         <li>
             <a href="/user/{{user.id}}">{{ user.username }}</a> | 
-            <form action="/leave_group" method="POST">
+            <form action="/remove_from_group" method="POST">
                 <input type="hidden" name="groups" value={{group_id}}>
                 <input type="hidden" name="user_id" value={{user.id}}>
                 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                 <input type="submit" value="Remove user">
+              </form>
+              <form action="/make_admin" method="POST">
+                <input type="hidden" name="groups" value={{group_id}}>
+                <input type="hidden" name="user_id" value={{user.id}}>
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                <input type="submit" value="Make admin">
               </form>
         </li>
     {% endif %}

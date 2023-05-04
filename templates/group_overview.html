@@ -44,10 +44,10 @@
 </table>
 <h3>Members</h3>
 <ul>
-  <li><a href="/user/{{group_founder.id}}">{{ group_founder.username }}</a> (founder)</li>
+  <li><a href="/user/{{group_owner.id}}">{{ group_owner.username }}</a> (owner)</li>
   <br>
   {% for admin in group_admins %}
-    {%if admin.username != group_founder.username%}
+    {%if admin.username != group_owner.username%}
       <li><a href="/user/{{admin.id}}">{{ admin.username }}</a> (admin)</li>
     {% endif %}
   {% endfor %}

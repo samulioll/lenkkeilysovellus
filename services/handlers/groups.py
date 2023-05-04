@@ -138,7 +138,8 @@ def get_normal_members(group_id):
 def get_owner(group_id):
     sql = text("""SELECT U.id, U.username
                   FROM users U, groupmembers G
-                  WHERE U.id=G.user_id AND G.group_id=:group_id AND G.owner_status=TRUE""")
+                  WHERE U.id=G.user_id AND G.group_id=:group_id 
+                  AND G.owner_status=TRUE AND G.visible=TRUE""")
     result = db.session.execute(sql, {"group_id":group_id})
     return result.fetchone()
 
@@ -146,6 +147,15 @@ def get_admins(group_id):
     sql = text("""SELECT U.id, U.username
                   FROM users U, groupmembers G
                   WHERE U.id=G.user_id AND G.group_id=:group_id 
-                  AND G.admin_status=TRUE""")
+                  AND G.admin_status=TRUE AND G.visible=TRUE""")
     result = db.session.execute(sql, {"group_id":group_id})
     return result.fetchall()
+
+def make_admin(group_id, user_id):
+    sql = text("""UPDATE groupmembers
+                  SET admin_status=TRUE
+                  WHERE user_id=:user_id AND group_id=:group_id""")
+    result = db.session.execute(sql, {"group_id":group_id,
+                                      "user_id":user_id})
+    db.session.commit()
+    return True

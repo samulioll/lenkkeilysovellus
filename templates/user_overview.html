@@ -21,9 +21,17 @@
 {% block content %}
 
 {% if user_public %}
-    <h2>{{ username }} (public)</h2>
+    {% if session.username == username %}
+        <h2>{{ username }} (public)</h2>
+    {% else %} 
+        <h2>{{ username }}</h2>
+    {% endif %}
 {% else %}
-    <h2>{{ username }} (private)</h2>
+    {% if session.username == username %}
+        <h2>{{ username }} (private)</h2>
+    {% else %} 
+        <h2>{{ username }}</h2>
+    {% endif %}
 {% endif %}
 {% if user_id == session["user_id"] %}
     {% if user_public %}
@@ -57,5 +65,7 @@
         <td>{{user_overview[4]}}</td>
     </tr>
 </table><br>
-<a href="/add_activity">Add activity</a> - <a href="/all_activities">All activities</a><br>
+{% if session.username == username %}
+    <a href="/add_activity">Add activity</a> - <a href="/all_activities">All activities</a><br>
+{% endif %}
 {%endblock %}
