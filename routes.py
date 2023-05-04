@@ -122,7 +122,7 @@ def join_group():
 def leave_group():
     if request.method == "GET":
         return render_template("leave_group.html", 
-                               group_list=groups.get_groups()
+                               group_list=groups.get_user_groups()
                                )
     elif request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:

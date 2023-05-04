@@ -67,6 +67,14 @@ def get_groups():
     result = db.session.execute(text("SELECT * FROM groups WHERE visible=TRUE"))
     return result.fetchall()
 
+def get_user_groups():
+    sql = text("""SELECT G.* 
+                  FROM groups G, groupmembers M
+                  WHERE G.id=M.group_id AND M.user_id=:user_id
+                  AND M.visible=TRUE""")
+    result = db.session.execute(sql, {"user_id":session["user_id"]})
+    return result.fetchall()
+
 def group_overview(group_id):
     total_dist = get_total_distance(group_id)
     walked = get_distance_walked(group_id)
