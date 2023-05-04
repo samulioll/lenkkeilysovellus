@@ -129,6 +129,13 @@ def leave_group():
             abort(403)
         group_id = request.form["groups"]
         user_id = request.form["user_id"]
+        if session["username"] in groups.get_owner(group_id):
+            next_owner = groups.get_next_owner(group_id)
+            print(next_owner)
+            if next_owner:
+                groups.make_owner(group_id, next_owner)
+            else:
+                groups.delete_group(group_id)
         if groups.leave_group(group_id, user_id):
             return redirect("/community")
         else:
@@ -192,7 +199,7 @@ def group(group_id):
         g_owner = groups.get_owner(group_id)
         g_admins = groups.get_admins(group_id)
         print(g_admins)
-        g_admin_right = True if session["username"] in g_admins[1] else False
+        g_admin_right = True if (session["user_id"], session["username"]) in g_admins else False
         print(session["username"])
         return render_template("group_overview.html", 
                                group_members=g_members, 

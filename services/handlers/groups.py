@@ -49,6 +49,13 @@ def create_group(form):
     db.session.commit()
     return True, None, group_id
 
+def delete_group(group_id):
+    sql = text("""UPDATE groups
+                  SET visible=FALSE
+                  WHERE id=:group_id""")
+    db.session.execute(sql, {"group_id":group_id})
+    db.session.commit()
+
 def user_groups_overview():
     sql = text("""SELECT G.name, G.id 
                   FROM groups G, groupmembers M 
@@ -151,9 +158,42 @@ def get_admins(group_id):
     result = db.session.execute(sql, {"group_id":group_id})
     return result.fetchall()
 
+def get_other_admins(group_id):
+    sql = text("""SELECT U.id, U.username
+                  FROM users U, groupmembers G
+                  WHERE U.id=G.user_id AND G.group_id=:group_id 
+                  AND G.admin_status=TRUE AND G.visible=TRUE AND G.user_id!=:user_id""")
+    result = db.session.execute(sql, {"group_id":group_id,
+                                      "user_id":session["user_id"]})
+    return result.fetchall()
+
 def make_admin(group_id, user_id):
     sql = text("""UPDATE groupmembers
                   SET admin_status=TRUE
+                  WHERE user_id=:user_id AND group_id=:group_id""")
+    result = db.session.execute(sql, {"group_id":group_id,
+                                      "user_id":user_id})
+    db.session.commit()
+    return True
+
+def get_next_owner(group_id):
+    try:
+        first_admin = get_other_admins(group_id)[0]
+    except:
+        first_admin = None
+    if not first_admin:
+        try:
+            first_member = get_normal_members(group_id)[0]
+        except:
+            first_member = None
+        if not first_member:
+            return False
+        return first_member
+    return first_admin
+
+def make_owner(group_id, user_id):
+    sql = text("""UPDATE groupmembers
+                  SET owner_status=TRUE, admin_status=TRUE
                   WHERE user_id=:user_id AND group_id=:group_id""")
     result = db.session.execute(sql, {"group_id":group_id,
                                       "user_id":user_id})
