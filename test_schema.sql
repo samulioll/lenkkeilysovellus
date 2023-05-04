@@ -46,7 +46,7 @@ CREATE TABLE groupmembers (
     id SERIAL PRIMARY KEY,
     group_id INTEGER REFERENCES groups,
     user_id INTEGER REFERENCES users,
-    founder_status BOOLEAN,
+    owner_status BOOLEAN,
     admin_status BOOLEAN,
     visible BOOLEAN
 );

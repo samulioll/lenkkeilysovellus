@@ -147,7 +147,7 @@ def create_group():
         success, error_msg, group_id = groups.create_group(request.form)
         print(group_id)
         if success:
-            groups.join_group_founder(group_id)
+            groups.join_group_owner(group_id)
             return redirect("/group/"+str(group_id))
         else:
             return render_template("create_group.html",
@@ -159,14 +159,14 @@ def group(group_id):
         g_members = groups.get_normal_members(group_id)
         g_name = groups.get_name(group_id)
         g_overview = groups.group_overview(group_id)
-        g_founder = groups.get_founder(group_id)
+        g_owner = groups.get_owner(group_id)
         g_admins = groups.get_admins(group_id)
         g_admin_right = True if session["username"] in g_admins[0] else False
         return render_template("group_overview.html", 
                                group_members=g_members, 
                                group_name=g_name,
                                group_overview = g_overview,
-                               group_founder=g_founder,
+                               group_owner=g_owner,
                                group_admins=g_admins,
                                admin_rights=g_admin_right,
                                group_id=group_id)
@@ -176,12 +176,12 @@ def manage_group(group_id):
     if request.method == "GET":
         g_members = groups.get_normal_members(group_id)
         g_name = groups.get_name(group_id)
-        g_founder = groups.get_founder(group_id)
+        g_owner = groups.get_owner(group_id)
         g_admins = groups.get_admins(group_id)
         return render_template("group_manager.html",
                                group_name=g_name,
                                group_members=g_members,
-                               group_founder=g_founder,
+                               group_owner=g_owner,
                                group_admins=g_admins,
                                group_id=group_id)
 

@@ -6,16 +6,16 @@ from services import tools
 
 def join_group(group_id):
     sql = text("""INSERT INTO groupmembers 
-                    (user_id, group_id, founder_status, admin_status, visible) 
+                    (user_id, group_id, owner_status, admin_status, visible) 
                     VALUES (:user_id, :group_id, FALSE, FALSE, TRUE)""")
     db.session.execute(sql, {"user_id":int(session["user_id"]), 
                                 "group_id":group_id})
     db.session.commit()
     return True
 
-def join_group_founder(group_id):
+def join_group_owner(group_id):
     sql = text("""INSERT INTO groupmembers 
-                    (user_id, group_id, founder_status, admin_status, visible) 
+                    (user_id, group_id, owner_status, admin_status, visible) 
                     VALUES (:user_id, :group_id, TRUE, TRUE, TRUE)""")
     db.session.execute(sql, {"user_id":int(session["user_id"]), 
                                 "group_id":group_id})
@@ -131,14 +131,14 @@ def get_normal_members(group_id):
     sql = text("""SELECT U.id, U.username 
                   FROM users U, groupmembers G 
                   WHERE U.id=G.user_id and G.group_id=:group_id AND G.visible=TRUE
-                  AND founder_status=FALSE AND admin_status=FALSE""")
+                  AND owner_status=FALSE AND admin_status=FALSE""")
     result = db.session.execute(sql, {"group_id":group_id})
     return result.fetchall()
 
-def get_founder(group_id):
+def get_owner(group_id):
     sql = text("""SELECT U.id, U.username
                   FROM users U, groupmembers G
-                  WHERE U.id=G.user_id AND G.group_id=:group_id AND G.founder_status=TRUE""")
+                  WHERE U.id=G.user_id AND G.group_id=:group_id AND G.owner_status=TRUE""")
     result = db.session.execute(sql, {"group_id":group_id})
     return result.fetchone()
 

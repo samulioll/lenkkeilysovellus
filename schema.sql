@@ -2,7 +2,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE,
     password TEXT,
-    visible BOOLEAN
+    public BOOLEAN
 );
 
 CREATE TABLE groups (
@@ -37,6 +37,8 @@ CREATE TABLE groupmembers (
     id SERIAL PRIMARY KEY,
     group_id INTEGER REFERENCES groups,
     user_id INTEGER REFERENCES users,
+    owner_status BOOLEAN,
+    admin_status BOOLEAN,
     visible BOOLEAN
 );
 
