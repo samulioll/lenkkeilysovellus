@@ -18,15 +18,18 @@ Sovellus mihin käyttäjät voivat lisätä kävellen, juosten tai pyöräillen 
 	- (✓) Jokainen käyttäjä voi nähdä tietyn toisen käyttäjän tilastot jos tämä käyttäjä on asettanut se julkiseksi.
 
 - Ryhmät
-	- (_) Käyttäjät voivat luoda ryhmiä.
-	- (_) Ryhmän ylläpitäjät voivat poistaa jäseniä.
+	- (✓) Käyttäjät voivat luoda ryhmiä.
+	- (✓) Ryhmän ylläpitäjät voivat poistaa jäseniä.
+	- (✓) Ryhmän ylläpitäjät voivat tehdä jäsenistä ylläpitäjiä.
+	- (_) Jos omistaja lähtee ryhmästä niin ensimmäisestä administa tai sen jälkeen jäsenestä tulee omistaja. Jos ei ole muita jäseniä niin ryhmä poistuu.
 	- (_) Ryhmän perustaja voi poistaa ryhmän.
 	- (✓) Käyttäjät voivat liittyä ryhmiin.
 	- (✓) Käyttäjät voivat poistua ryhmistä.
 
 - Ryhmäsivu
-	- (✓) Ryhmän tilastot
-	- (✓) Ryhmän jäsenet
+	- (✓) Ryhmän tilastot.
+	- (✓) Ryhmän jäsenet.
+	- (✓) Ryhmän ylläpitosivu ylläpitäjille.
 
 - Lenkkien lisäys tietokantaan
 	- (✓) Käyttäjät voivat lisätä tekemiään lenkkejä ja niiden tiedot tallennetaan tietokantaan.
