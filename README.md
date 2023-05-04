@@ -13,8 +13,9 @@ Sovellus mihin käyttäjät voivat lisätä kävellen, juosten tai pyöräillen 
 	- (✓) Käyttäjät voivat asettaa profiilinsa näkyvyyden yksityiseksi.
 
 - Profiilisivu
-	- (_) Jokainen käyttäjä näkee monipuoliset tilastot omista lenkeistään.
-	- (_) Jokainen käyttäjä voi nähdä tietyn toisen käyttäjän tilastot jos tämä käyttäjä on asettanut se julkiseksi.
+	- (✓) Jokainen käyttäjä näkee tiivistetyt tilastot omista lenkeistään.
+	- (_) Jokainen käyttäjä näkee laajat tilastot omista lenkeistään.
+	- (✓) Jokainen käyttäjä voi nähdä tietyn toisen käyttäjän tilastot jos tämä käyttäjä on asettanut se julkiseksi.
 
 - Ryhmät
 	- (_) Käyttäjät voivat luoda ryhmiä.
