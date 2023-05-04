@@ -2,6 +2,13 @@
 {% block title %} Community page{% endblock %}
 {% block content %}
 <h2>{{ group_name }}</h2>
+{% if session.username == group_owner.username %}
+    <form action="/delete_group" method="POST">
+        <input type="hidden" name="group_id" value={{group_id}}>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <input type="submit" value="Delete group">
+    </form>
+{% endif %}
 <h3>Members</h3>
 <ul>
   {% for user in group_members %}
@@ -29,7 +36,7 @@
                 <input type="hidden" name="user_id" value={{user.id}}>
                 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                 <input type="submit" value="Make admin">
-              </form>
+            </form>
         </li>
     {% endif %}
   {% endfor %}

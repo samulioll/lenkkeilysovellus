@@ -190,6 +190,16 @@ def create_group():
             return render_template("create_group.html",
                                    error_message=error_msg)
 
+@app.route("/delete_group", methods=["GET", "POST"])
+def delete_group():
+    if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
+        print(request.form["group_id"])
+        groups.delete_group(request.form["group_id"])
+        return redirect("/community")
+
+
 @app.route("/group/<int:group_id>", methods=["GET", "POST"])
 def group(group_id):
     if request.method == "GET":
@@ -215,8 +225,8 @@ def manage_group(group_id):
     if request.method == "GET":
         g_members = groups.get_normal_members(group_id)
         g_name = groups.get_name(group_id)
-        g_owner = groups.get_owner(group_id)
         g_admins = groups.get_admins(group_id)
+        g_owner = groups.get_owner(group_id)
         return render_template("group_manager.html",
                                group_name=g_name,
                                group_members=g_members,

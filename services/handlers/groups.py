@@ -59,7 +59,8 @@ def delete_group(group_id):
 def user_groups_overview():
     sql = text("""SELECT G.name, G.id 
                   FROM groups G, groupmembers M 
-                  WHERE G.id=M.group_id AND M.user_id=:user_id AND M.visible=TRUE""")
+                  WHERE G.id=M.group_id AND M.user_id=:user_id AND M.visible=TRUE
+                  AND G.visible=TRUE""")
     result = db.session.execute(sql, {"user_id":session["user_id"]})
     return result.fetchall()
 
@@ -203,7 +204,7 @@ def make_owner(group_id, user_id):
     sql = text("""UPDATE groupmembers
                   SET owner_status=TRUE, admin_status=TRUE
                   WHERE user_id=:user_id AND group_id=:group_id""")
-    result = db.session.execute(sql, {"group_id":group_id,
-                                      "user_id":user_id})
+    db.session.execute(sql, {"group_id":group_id,
+                             "user_id":user_id[0]})
     db.session.commit()
     return True
