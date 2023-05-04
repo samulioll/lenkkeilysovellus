@@ -22,7 +22,7 @@ Sovellus mihin käyttäjät voivat lisätä kävellen, juosten tai pyöräillen 
 	- (✓) Ryhmän ylläpitäjät voivat poistaa jäseniä.
 	- (✓) Ryhmän ylläpitäjät voivat tehdä jäsenistä ylläpitäjiä.
 	- (✓) Jos omistaja lähtee ryhmästä niin ensimmäisestä administa tai sen jälkeen jäsenestä tulee omistaja. Jos ei ole muita jäseniä niin ryhmä poistuu.
-	- (_) Ryhmän perustaja voi poistaa ryhmän.
+	- (✓) Ryhmän perustaja voi poistaa ryhmän.
 	- (✓) Käyttäjät voivat liittyä ryhmiin.
 	- (✓) Käyttäjät voivat poistua ryhmistä.
 
