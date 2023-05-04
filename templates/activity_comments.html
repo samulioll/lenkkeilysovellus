@@ -39,7 +39,7 @@
       <form action="/activity/{{activity_id}}/activity_comments" method="POST">
         <input type="hidden" name="action" value="delete">
         <input type="hidden" name="comment_id" value="{{ comment[4] }}">
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         <input type="submit" value="Delete comment">
       </form>
     </td>

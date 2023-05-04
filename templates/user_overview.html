@@ -19,7 +19,12 @@
 {% extends "layout.html" %}
 {% block title %} Community page{% endblock %}
 {% block content %}
-<h2>{{ username }} ({{ user_public }})</h2>
+
+{% if user_public %}
+    <h2>{{ username }} (public)</h2>
+{% else %}
+    <h2>{{ username }} (private)</h2>
+{% endif %}
 {% if user_id == session["user_id"] %}
     {% if user_public %}
         <form action="/user/{{user_id}}" method="POST">       
@@ -51,5 +56,6 @@
         <td>{{user_overview[3]}}</td>
         <td>{{user_overview[4]}}</td>
     </tr>
-</table>
+</table><br>
+<a href="/add_activity">Add activity</a> - <a href="/all_activities">All activities</a><br>
 {%endblock %}

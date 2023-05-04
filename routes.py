@@ -109,7 +109,8 @@ def join_group():
     elif request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:
                     abort(403)
-        if groups.join_group(request.form):
+        group_id = request.form["groups"]
+        if groups.join_group(group_id):
             return redirect("/community")
         else:
             return render_template("join_group.html", 
@@ -133,7 +134,23 @@ def leave_group():
                                    group_list=groups.get_groups(), 
                                    error_message="Error in leaving group"
                                    )
-        
+
+@app.route("/create_group", methods=["GET", "POST"])
+def create_group():
+    if request.method == "GET":
+        return render_template("create_group.html")
+    else:
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
+        success, error_msg, group_id = groups.create_group(request.form)
+        print(group_id)
+        if success:
+            groups.join_group_founder(group_id)
+            return redirect("/group/"+str(group_id))
+        else:
+            return render_template("create_group.html",
+                                   error_message=error_msg)
+
 @app.route("/group/<int:group_id>", methods=["GET", "POST"])
 def group(group_id):
     if request.method == "GET":
@@ -183,8 +200,8 @@ def activity_comments(activity_id):
 @app.route("/user/<int:user_id>", methods=["GET", "POST"])
 def user_overview(user_id):
     if request.method == "GET":
+        u_username = users.get_username(user_id)
         if users.is_public(user_id) or user_id == session["user_id"]:
-            u_username = users.get_username(user_id)
             u_overview = users.user_overview(user_id)
             u_public = users.is_public(user_id)
             return render_template("user_overview.html",
@@ -192,6 +209,9 @@ def user_overview(user_id):
                                 user_public = u_public,
                                 username=u_username,
                                 user_overview=u_overview)
+        else:
+            return render_template("user_private.html",
+                                   username=u_username)
     else:
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)

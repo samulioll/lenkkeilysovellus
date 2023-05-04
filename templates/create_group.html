@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %} Log in or create an account {% endblock %}
+{% block content %}
+{% if error_message %}
+<p>{{ error_message }}</p>
+{% endif %}
+<h2>Create a new group</h2>
+<form action="/create_group" method="POST">
+    <p>Group name:<br>
+    <input type="text" name="group_name"></p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="submit" value="Create account">
+</form>
+{%endblock %}

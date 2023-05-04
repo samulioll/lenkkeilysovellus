@@ -38,16 +38,14 @@ def register(username, password):
     username_taken = result.fetchone()
     if username_taken:
         return False
-    else:
-        hash_value = generate_password_hash(password)
-
-        sql = text("""INSERT INTO users 
-                        (username, password, public) 
-                        VALUES 
-                        (:username, :password, TRUE)""")
-        db.session.execute(sql, {"username":username, "password":hash_value})
-        db.session.commit()
-        return login(username, password)
+    hash_value = generate_password_hash(password)
+    sql = text("""INSERT INTO users 
+                    (username, password, public) 
+                    VALUES 
+                    (:username, :password, TRUE)""")
+    db.session.execute(sql, {"username":username, "password":hash_value})
+    db.session.commit()
+    return login(username, password)
 
         
 def get_username(user_id):

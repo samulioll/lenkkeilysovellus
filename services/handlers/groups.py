@@ -4,17 +4,23 @@ from flask import session
 from sqlalchemy import text
 from services import tools
 
-def join_group(form):
-    try:
-        sql = text("""INSERT INTO groupmembers 
-                      (user_id, group_id, visible) 
-                      VALUES (:user_id, :group_id, TRUE)""")
-        db.session.execute(sql, {"user_id":int(session["user_id"]), 
-                                 "group_id":int(form["groups"])})
-        db.session.commit()
-        return True
-    except:
-        return False
+def join_group(group_id):
+    sql = text("""INSERT INTO groupmembers 
+                    (user_id, group_id, founder_status, admin_status, visible) 
+                    VALUES (:user_id, :group_id, FALSE, FALSE, TRUE)""")
+    db.session.execute(sql, {"user_id":int(session["user_id"]), 
+                                "group_id":group_id})
+    db.session.commit()
+    return True
+
+def join_group_founder(group_id):
+    sql = text("""INSERT INTO groupmembers 
+                    (user_id, group_id, founder_status, admin_status, visible) 
+                    VALUES (:user_id, :group_id, TRUE, TRUE, TRUE)""")
+    db.session.execute(sql, {"user_id":int(session["user_id"]), 
+                                "group_id":group_id})
+    db.session.commit()
+    return True
 
 def leave_group(form):
     try:
@@ -27,6 +33,21 @@ def leave_group(form):
         return True
     except:
         return False
+
+def create_group(form):
+    sql = text("SELECT id FROM groups WHERE name=:group_name")
+    result = db.session.execute(sql, {"group_name":form["group_name"]})
+    name_taken = result.fetchone()
+    if name_taken:
+        return False, "Group name already in use", None
+    sql = text("""INSERT INTO groups 
+                  (name, visible) 
+                  VALUES 
+                  (:group_name, TRUE)
+                  RETURNING id""")
+    group_id = db.session.execute(sql, {"group_name":form["group_name"]}).fetchone()[0]
+    db.session.commit()
+    return True, None, group_id
 
 def user_groups_overview():
     sql = text("""SELECT G.name, G.id 
