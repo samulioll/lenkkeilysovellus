@@ -41,11 +41,11 @@ Sovellus mihin käyttäjät voivat lisätä kävellen, juosten tai pyöräillen 
 
 - Kaikkien käyttäjien yleiset tilastot
 	- (_) Jokainen käyttäjä voi nähdä tilastot kaikkien käyttäjien tekemistä lenkeistä, riippumatta yksityisyysasetuksista. Kokonaistilastoista ei kuitenkaan voi yksilöidä käyttäjiä.
-	- (_) Leaderboard käyttäjille.
+	- (✓) Leaderboard käyttäjille.
 
 - Kaikien ryhmien tilastot
 	- (_) Jokainen käyttäjä voi nähdä tilastot kaikkien ryhmien tekemistä lenkeistä, riippumatta yksityisyysasetuksista. Kokonaistilastoista ei kuitenkaan voi yksilöidä käyttäjiä.
-	- (_) Leaderboard ryhmille.
+	- (✓) Leaderboard ryhmille.
 
 ## Sovelluksen käynnistäminen paikallisesti
 
