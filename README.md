@@ -33,7 +33,7 @@ Sovellus mihin käyttäjät voivat lisätä kävellen, juosten tai pyöräillen 
 
 - Lenkkien lisäys tietokantaan
 	- (✓) Käyttäjät voivat lisätä tekemiään lenkkejä ja niiden tiedot tallennetaan tietokantaan.
-	- (_) Kommentin lisäys lenkin lisäyksen yhteydessä.
+	- (✓) Kommentin lisäys lenkin lisäyksen yhteydessä.
 
 - Kommentointi
 	- (✓) Käyttäjät voivat kommentoida lenkkejä.
