@@ -14,7 +14,6 @@ Sovellus mihin käyttäjät voivat lisätä kävellen, juosten tai pyöräillen 
 
 - Profiilisivu
 	- (✓) Jokainen käyttäjä näkee tiivistetyt tilastot omista lenkeistään.
-	- (_) Jokainen käyttäjä näkee laajat tilastot omista lenkeistään.
 	- (✓) Jokainen käyttäjä voi nähdä tietyn toisen käyttäjän tilastot jos tämä käyttäjä on asettanut se julkiseksi.
 
 - Ryhmät
