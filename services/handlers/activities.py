@@ -20,10 +20,8 @@ def add_activity(form):
                                      "duration":time, 
                                      "date":str(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M"))})
             db.session.commit()
-            #if comments.add_comment(form):
+            add_comment(form)
             return (True, "")
-            #else:
-            #    raise ValueError
         else:
             return (False, "Invalid time")
     except:
@@ -44,7 +42,6 @@ def add_comment(form):
                                  "content":str(form["comment"]), 
                                  "date":str(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M"))})
         db.session.commit()
-        print("test")
         return True
     except:
         return False
