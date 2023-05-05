@@ -3,7 +3,8 @@ from db import db
 
 
 def get_activity_routes():
-    result = db.session.execute(text("SELECT * FROM routes"))
+    result = db.session.execute(text("""SELECT id, name, length, visible
+                                        FROM routes"""))
     return result.fetchall()
 
 

@@ -30,10 +30,11 @@ def delete_comment(form):
 
 
 def get_comments(activity_id):
-    sql = text("""SELECT *
-                    FROM comments
-                    WHERE activity_id=:activity_id AND visible=TRUE
-                    ORDER BY id DESC""")
+    sql = text("""SELECT id, activity_id, user_id, content,
+                  date, seen, visible
+                  FROM comments
+                  WHERE activity_id=:activity_id AND visible=TRUE
+                  ORDER BY id DESC""")
     result = db.session.execute(sql, {"activity_id": activity_id})
     if result:
         return format_comments(result.fetchall())
@@ -63,27 +64,9 @@ def format_new_comments(all_comments):
     return comment_list
 
 
-def get_comment_count(activity_id):
-    sql = text("""SELECT COUNT(id)
-                    FROM comments
-                    WHERE activity_id=:activity_id AND visible=TRUE""")
-    result = db.session.execute(sql, {"activity_id": activity_id})
-    if result:
-        return result.fetchone()[0]
-    return False
-
-
-def get_unseen_count():
-    sql = text("""SELECT COUNT(C.id)
-                  FROM comments C, activities A
-                  WHERE C.activity_id=A.id AND A.user_id=:user_id
-                  AND C.visible=TRUE AND C.seen=FALSE""")
-    result = db.session.execute(sql, {"user_id": session["user_id"]})
-    return result.fetchone()[0]
-
-
 def get_unseen_comments():
-    sql = text("""SELECT C.*
+    sql = text("""SELECT C.id, C.activity_id, C.user_id, C.content,
+                  C.date, C.seen, C.visible
                   FROM comments C, activities A
                   WHERE C.activity_id=A.id AND A.user_id=:user_id
                   AND C.visible=TRUE AND C.seen=FALSE""")

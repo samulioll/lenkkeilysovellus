@@ -3,7 +3,6 @@ from flask import session
 from sqlalchemy import text
 from services import tools
 from db import db
-from .comments import get_comment_count
 from .users import get_username
 from .activity_routes import get_activity_route
 
@@ -46,7 +45,7 @@ def add_comment(form):
 
 
 def user_activities_overview():
-    sql = text("""SELECT *
+    sql = text("""SELECT id, user_id, sport_id, route_id, duration, date, visible
                   FROM activities 
                   WHERE user_id=:user_id 
                   ORDER BY id DESC 
@@ -56,10 +55,12 @@ def user_activities_overview():
 
 
 def user_groups_activities_overview():
-    sql = text("""SELECT DISTINCT A.*
+    sql = text("""SELECT DISTINCT A.id, A.user_id, A.sport_id, A.route_id,
+                  A.duration, A.date, A.visible
                   FROM activities A, groupmembers G 
                   WHERE A.visible=TRUE AND A.user_id=G.user_id AND G.user_id IN 
-                  (SELECT DISTINCT U.id FROM users U, groupmembers G WHERE U.id=G.user_id AND G.group_id IN 
+                  (SELECT DISTINCT U.id FROM users U, groupmembers G 
+                  WHERE U.id=G.user_id AND G.group_id IN 
                   (SELECT DISTINCT group_id FROM groupmembers WHERE user_id=:user_id)) 
                   ORDER BY A.id DESC 
                   LIMIT 5""")
@@ -68,7 +69,7 @@ def user_groups_activities_overview():
 
 
 def all_user_activities():
-    sql = text("""SELECT *
+    sql = text("""SELECT id, user_id, sport_id, route_id, duration, date, visible
                   FROM activities 
                   WHERE user_id=:user_id 
                   ORDER BY id DESC""")
@@ -77,10 +78,12 @@ def all_user_activities():
 
 
 def all_user_group_activities():
-    sql = text("""SELECT DISTINCT A.*
+    sql = text("""SELECT DISTINCT A.id, A.user_id, A.sport_id, A.route_id,
+                  A.duration, A.date, A.visible
                   FROM activities A, groupmembers G 
                   WHERE A.visible=TRUE AND A.user_id=G.user_id AND G.user_id IN 
-                  (SELECT DISTINCT U.id FROM users U, groupmembers G WHERE U.id=G.user_id AND G.group_id IN 
+                  (SELECT DISTINCT U.id FROM users U, groupmembers G 
+                  WHERE U.id=G.user_id AND G.group_id IN 
                   (SELECT DISTINCT group_id FROM groupmembers WHERE user_id=:user_id)) 
                   ORDER BY A.id DESC""")
     result = db.session.execute(sql, {"user_id": session["user_id"]})
@@ -117,7 +120,8 @@ def format_group_activities_for_overview(act_list):
 
 
 def activity_info_short(activity_id):
-    sql = text("""SELECT U.username, A.*
+    sql = text("""SELECT U.username, A.id, A.user_id, A.sport_id, A.route_id,
+                  A.duration, A.date, A.visible
                   FROM users U,activities A
                   WHERE U.id=A.user_id AND A.id=:activity_id """)
     result = db.session.execute(sql, {"activity_id": activity_id})
@@ -151,3 +155,13 @@ def get_length(route_id):
 
 def user_leaderboard():
     pass
+
+
+def get_comment_count(activity_id):
+    sql = text("""SELECT COUNT(id)
+                    FROM comments
+                    WHERE activity_id=:activity_id AND visible=TRUE""")
+    result = db.session.execute(sql, {"activity_id": activity_id})
+    if result:
+        return result.fetchone()[0]
+    return False

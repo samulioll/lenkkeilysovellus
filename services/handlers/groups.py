@@ -75,7 +75,7 @@ def get_groups():
 
 
 def get_user_groups():
-    sql = text("""SELECT G.*
+    sql = text("""SELECT G.id, G.name, G.visible
                   FROM groups G, groupmembers M
                   WHERE G.id=M.group_id AND M.user_id=:user_id
                   AND M.visible=TRUE""")

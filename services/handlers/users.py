@@ -4,7 +4,6 @@ from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import db
 from services import tools
-from .comments import get_unseen_count
 
 
 def login(username, password):
@@ -143,4 +142,13 @@ def get_total_time(user_id):
                   WHERE user_id IN 
                   (SELECT user_id FROM groupmembers WHERE user_id=:user_id)""")
     result = db.session.execute(sql, {"user_id": user_id})
+    return result.fetchone()[0]
+
+
+def get_unseen_count():
+    sql = text("""SELECT COUNT(C.id)
+                  FROM comments C, activities A
+                  WHERE C.activity_id=A.id AND A.user_id=:user_id
+                  AND C.visible=TRUE AND C.seen=FALSE""")
+    result = db.session.execute(sql, {"user_id": session["user_id"]})
     return result.fetchone()[0]
