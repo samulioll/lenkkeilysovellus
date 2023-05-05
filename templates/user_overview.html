@@ -1,52 +1,53 @@
 <style>
     table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
     }
-    
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
     }
-    
+
     tr:nth-child(even) {
-      background-color: #dddddd;
+        background-color: #dddddd;
     }
-    </style>
+</style>
 
 {% extends "layout.html" %}
 {% block title %} Community page{% endblock %}
 {% block content %}
 
 {% if user_public %}
-    {% if session.username == username %}
-        <h2>{{ username }} (public)</h2>
-    {% else %} 
-        <h2>{{ username }}</h2>
-    {% endif %}
+{% if session.username == username %}
+<h2>{{ username }} (public)</h2>
 {% else %}
-    {% if session.username == username %}
-        <h2>{{ username }} (private)</h2>
-    {% else %} 
-        <h2>{{ username }}</h2>
-    {% endif %}
+<h2>{{ username }}</h2>
+{% endif %}
+{% else %}
+{% if session.username == username %}
+<h2>{{ username }} (private)</h2>
+{% else %}
+<h2>{{ username }}</h2>
+{% endif %}
 {% endif %}
 {% if user_id == session["user_id"] %}
-    {% if user_public %}
-        <form action="/user/{{user_id}}" method="POST">       
-            <input type="hidden" name="make_profile" value="private">
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
-            <input type="submit" value="Make profile private">
-        </form>
-    {% else %}
-    <form action="/user/{{user_id}}" method="POST">      
-        <input type="hidden" name="make_profile" value="public">
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
-        <input type="submit" value="Make profile public">
-    </form>
-    {% endif %}
+{% if user_public %}
+<form action="/user/{{user_id}}" method="POST">
+    <input type="hidden" name="make_profile" value="private">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
+    <input type="submit" value="Make profile private">
+</form>
+{% else %}
+<form action="/user/{{user_id}}" method="POST">
+    <input type="hidden" name="make_profile" value="public">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
+    <input type="submit" value="Make profile public">
+</form>
+{% endif %}
 {% endif %}
 <h3>General statistics</h3>
 <table>
@@ -66,6 +67,6 @@
     </tr>
 </table><br>
 {% if session.username == username %}
-    <a href="/add_activity">Add activity</a> - <a href="/all_activities">All activities</a><br>
+<a href="/add_activity">Add activity</a> - <a href="/all_activities">All activities</a><br>
 {% endif %}
 {%endblock %}

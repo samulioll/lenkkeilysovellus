@@ -3,42 +3,42 @@
 {% block content %}
 <h2>{{ group_name }}</h2>
 {% if session.username == group_owner.username %}
-    <form action="/delete_group" method="POST">
-        <input type="hidden" name="group_id" value={{group_id}}>
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-        <input type="submit" value="Delete group">
-    </form>
+<form action="/delete_group" method="POST">
+  <input type="hidden" name="group_id" value={{group_id}}>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+  <input type="submit" value="Delete group">
+</form>
 {% endif %}
 <h3>Members</h3>
 <ul>
   {% for user in group_members %}
-    {% if user.username == group_owner %}
-      <li><a href="/user/{{user.id}}">{{ user.username }}</a> (owner)</li>
-    {% endif %}
+  {% if user.username == group_owner %}
+  <li><a href="/user/{{user.id}}">{{ user.username }}</a> (owner)</li>
+  {% endif %}
   {% endfor %}
   {% for user in group_members %}
-    {% if user.username in group_admins and user.username != group_owner %}
-      <li><a href="/user/{{user.id}}">{{ user.username }}</a> (admin)</li>
-    {% endif %}
+  {% if user.username in group_admins and user.username != group_owner %}
+  <li><a href="/user/{{user.id}}">{{ user.username }}</a> (admin)</li>
+  {% endif %}
   {% endfor %}
   {% for user in group_members %}
-    {% if user.username not in group_admins and user.username != group_owner %}
-        <li>
-            <a href="/user/{{user.id}}">{{ user.username }}</a> | 
-            <form action="/remove_from_group" method="POST">
-                <input type="hidden" name="groups" value={{group_id}}>
-                <input type="hidden" name="user_id" value={{user.id}}>
-                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-                <input type="submit" value="Remove user">
-              </form>
-              <form action="/make_admin" method="POST">
-                <input type="hidden" name="groups" value={{group_id}}>
-                <input type="hidden" name="user_id" value={{user.id}}>
-                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-                <input type="submit" value="Make admin">
-            </form>
-        </li>
-    {% endif %}
+  {% if user.username not in group_admins and user.username != group_owner %}
+  <li>
+    <a href="/user/{{user.id}}">{{ user.username }}</a> |
+    <form action="/remove_from_group" method="POST">
+      <input type="hidden" name="groups" value={{group_id}}>
+      <input type="hidden" name="user_id" value={{user.id}}>
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+      <input type="submit" value="Remove user">
+    </form>
+    <form action="/make_admin" method="POST">
+      <input type="hidden" name="groups" value={{group_id}}>
+      <input type="hidden" name="user_id" value={{user.id}}>
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+      <input type="submit" value="Make admin">
+    </form>
+  </li>
+  {% endif %}
   {% endfor %}
 </ul>
 {%endblock %}

@@ -1,22 +1,18 @@
-from app import app
-from db import db
-from flask import session
 from sqlalchemy import text
+from db import db
+
 
 def get_activity_routes():
-    try:
-        result = db.session.execute(text("SELECT * FROM routes"))
-        return result.fetchall()
-    except:
-        return False
+    result = db.session.execute(text("SELECT * FROM routes"))
+    return result.fetchall()
+
 
 def get_activity_route(route_id):
-    try:
-        sql = text("SELECT name, length from routes WHERE id=:route_id")
-        fetch = db.session.execute(sql, {"route_id":route_id})
-        info = fetch.fetchone()
+    sql = text("SELECT name, length from routes WHERE id=:route_id")
+    fetch = db.session.execute(sql, {"route_id": route_id})
+    info = fetch.fetchone()
+    if info:
         route = info[0]
         length = str(info[1]) + "km"
         return (route, length)
-    except:
-        return False
+    return False

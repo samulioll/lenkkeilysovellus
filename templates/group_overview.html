@@ -1,59 +1,60 @@
 <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-    
-    tr:nth-child(even) {
-      background-color: #dddddd;
-    }
-    </style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+</style>
 
 {% extends "layout.html" %}
 {% block title %} Community page{% endblock %}
 {% block content %}
 <h2>{{ group_name }}</h2>
 {% if admin_rights %}
-    <a href="/group/{{group_id}}/manage">Manage group</a>
+<a href="/group/{{group_id}}/manage">Manage group</a>
 {% endif %}
 <br><br>
 <h3>General statistics</h3>
 
 <table>
-    <tr>
-        <th>Total distance</th>
-        <th>Distance walked</th>
-        <th>Distance ran</th>
-        <th>Distance cycled</th>
-        <th>Total duration</th>
-    </tr>
-    <tr>
-        <td>{{group_overview[0]}}</td>
-        <td>{{group_overview[1]}}</td>
-        <td>{{group_overview[2]}}</td>
-        <td>{{group_overview[3]}}</td>
-        <td>{{group_overview[4]}}</td>
-    </tr>
+  <tr>
+    <th>Total distance</th>
+    <th>Distance walked</th>
+    <th>Distance ran</th>
+    <th>Distance cycled</th>
+    <th>Total duration</th>
+  </tr>
+  <tr>
+    <td>{{group_overview[0]}}</td>
+    <td>{{group_overview[1]}}</td>
+    <td>{{group_overview[2]}}</td>
+    <td>{{group_overview[3]}}</td>
+    <td>{{group_overview[4]}}</td>
+  </tr>
 </table>
 <h3>Members</h3>
 <ul>
   <li><a href="/user/{{group_owner.id}}">{{ group_owner.username }}</a> (owner)</li>
   <br>
   {% for admin in group_admins %}
-    {%if admin.username != group_owner.username%}
-      <li><a href="/user/{{admin.id}}">{{ admin.username }}</a> (admin)</li>
-    {% endif %}
+  {%if admin.username != group_owner.username%}
+  <li><a href="/user/{{admin.id}}">{{ admin.username }}</a> (admin)</li>
+  {% endif %}
   {% endfor %}
   <br>
   {% for user in group_members %}
-    <li><a href="/user/{{user.id}}">{{ user.username }}</a></li>
+  <li><a href="/user/{{user.id}}">{{ user.username }}</a></li>
   {% endfor %}
 </ul>
 {%endblock %}

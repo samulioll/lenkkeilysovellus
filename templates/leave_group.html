@@ -10,9 +10,9 @@
     Group:
     <p>
         <select name="groups" id="group">
-        {% for group in group_list %}
-        <option value={{group.id}}>{{group.name}}</option>
-        {% endfor %}
+            {% for group in group_list %}
+            <option value={{group.id}}>{{group.name}}</option>
+            {% endfor %}
         </select>
     </p>
     <input type="hidden" name="user_id" value={{session.user_id}}>

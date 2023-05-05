@@ -16,10 +16,10 @@
     Route:
     <p>
         <select name="routes" id="route">
-        <option value="0">Select route</option>
-        {% for route in route_list %}
-        <option value={{route.id}}>{{route.name}}</option>
-        {% endfor %}
+            <option value="0">Select route</option>
+            {% for route in route_list %}
+            <option value={{route.id}}>{{route.name}}</option>
+            {% endfor %}
         </select>
     </p>
     Time (hh:mm:ss)

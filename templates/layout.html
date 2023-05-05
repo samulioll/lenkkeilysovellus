@@ -1,23 +1,25 @@
 <!doctype html>
 <title>Sports activity app - {% block title %}{% endblock %}</title>
-<a href="/"><h1>Sports activity app</h1></a>
+<a href="/">
+    <h1>Sports activity app</h1>
+</a>
 {% if session.user_id %}
-    <p>
-        You are logged in as {{ session.username}}<br>
-        <a href="/user/{{session.user_id}}">Profile page</a> - 
-        <a href="/logout">Log out</a>
-        <br>
-    </p>
-    <a href="/dashboard">Dashboard</a> - 
-    <a href="/community">Community page</a> 
-    {% if session.unseen_comments > 0%}
-        <a href="/user/{{session.user_id}}/new_comments"> - {{session.unseen_comments}} new comments!</a><br>
-    {% endif %}
+<p>
+    You are logged in as {{ session.username}}<br>
+    <a href="/user/{{session.user_id}}">Profile page</a> -
+    <a href="/logout">Log out</a>
+    <br>
+</p>
+<a href="/dashboard">Dashboard</a> -
+<a href="/community">Community page</a>
+{% if session.unseen_comments > 0%}
+<a href="/user/{{session.user_id}}/new_comments"> - {{session.unseen_comments}} new comments!</a><br>
+{% endif %}
 {% else %}
-    <p>
-        Please log in or create an account<br>
-        <a href="/login">Log in</a> - <a href="/register">Create account</a>
-    </p>
+<p>
+    Please log in or create an account<br>
+    <a href="/login">Log in</a> - <a href="/register">Create account</a>
+</p>
 {% endif %}
 <hr>
 {% block content %}{% endblock %}
