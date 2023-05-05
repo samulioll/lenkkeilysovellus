@@ -209,6 +209,16 @@ def make_admin(group_id, user_id):
     return True
 
 
+def demote_admin(group_id, user_id):
+    sql = text("""UPDATE groupmembers
+                  SET admin_status=FALSE
+                  WHERE user_id=:user_id AND group_id=:group_id""")
+    db.session.execute(sql, {"group_id": group_id,
+                                      "user_id": user_id})
+    db.session.commit()
+    return True
+
+
 def get_next_owner(group_id):
     first_admin = get_other_admins(group_id)[0]
     if not first_admin:

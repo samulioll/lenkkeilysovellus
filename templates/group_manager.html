@@ -9,18 +9,41 @@
   <input type="submit" value="Delete group">
 </form>
 {% endif %}
-<h3>Members</h3>
+<h2>Members</h2>
 <ul>
-  {% for user in group_members %}
-  {% if user.username == group_owner %}
-  <li><a href="/user/{{user.id}}">{{ user.username }}</a> (owner)</li>
+  {% if group_owner.username != session.username %}
+  <h3>Owner</h3>
+  <li><a href="/user/{{group_owner.id}}">{{ group_owner.username }}</a> (owner)</li>
+  {% endif %}
+  {% if group_admins %}
+  <h3>Admins</h3>
+  {% endif %}
+  {% for user in group_admins%}
+  {% if user.username != group_owner.username and user.username != session.username %}
+  <li>
+    <a href="/user/{{user.id}}">{{ user.username }}</a> (admin) |
+    <form action="/remove_from_group" method="POST">
+      <input type="hidden" name="groups" value={{group_id}}>
+      <input type="hidden" name="user_id" value={{user.id}}>
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+      <input type="submit" value="Remove user">
+    </form>
+    <form action="/demote_admin" method="POST">
+      <input type="hidden" name="groups" value={{group_id}}>
+      <input type="hidden" name="user_id" value={{user.id}}>
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+      <input type="submit" value="Demote admin">
+    </form>
+  </li>
+  {% elif user.username != session.username%}
+  <li>
+    <a href="/user/{{user.id}}">{{ user.username }}</a> (admin)
+  </li>
   {% endif %}
   {% endfor %}
-  {% for user in group_members %}
-  {% if user.username in group_admins and user.username != group_owner %}
-  <li><a href="/user/{{user.id}}">{{ user.username }}</a> (admin)</li>
+  {% if group_members %}
+  <h3>Normal members</h3>
   {% endif %}
-  {% endfor %}
   {% for user in group_members %}
   {% if user.username not in group_admins and user.username != group_owner %}
   <li>

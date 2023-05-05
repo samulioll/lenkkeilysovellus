@@ -157,7 +157,7 @@ def remove_from_group():
 
 
 @app.route("/make_admin", methods=["POST"])
-def rmake_admin():
+def make_admin():
     tools.verify_csrf(session["csrf_token"])
     group_id = request.form["groups"]
     user_id = request.form["user_id"]
@@ -166,6 +166,19 @@ def rmake_admin():
     return render_template("leave_group.html",
                             group_list=groups.get_groups(),
                             error_message="Error in making admin"
+                            )
+
+
+@app.route("/demote_admin", methods=["POST"])
+def demote_admin():
+    tools.verify_csrf(session["csrf_token"])
+    group_id = request.form["groups"]
+    user_id = request.form["user_id"]
+    if groups.demote_admin(group_id, user_id):
+        return redirect("/group/"+str(group_id)+"/manage")
+    return render_template("leave_group.html",
+                            group_list=groups.get_groups(),
+                            error_message="Error in demoting admin"
                             )
 
 
@@ -227,35 +240,33 @@ def manage_group(group_id):
 
 @app.route("/activity/<int:activity_id>/activity_comments", methods=["GET", "POST"])
 def activity_comments(activity_id):
+    c_list = comments.get_comments(activity_id)
+    a_info = activities.activity_info_short(activity_id)
     if request.method == "GET":
         return render_template("activity_comments.html",
-                               comment_list=comments.get_comments(activity_id),
+                               comment_list=c_list,
                                activity_id=activity_id,
-                               activity_info=activities.activity_info_short(activity_id))
+                               activity_info=a_info)
     tools.verify_csrf(session["csrf_token"])
     if request.form["action"] == "delete":
         success, error_msg = comments.delete_comment(request.form)
         if success:
             return render_template("activity_comments.html",
-                                    comment_list=comments.get_comments(
-                                        activity_id),
+                                    comment_list=c_list,
                                     activity_id=activity_id,
-                                    activity_info=activities.activity_info_short(activity_id))
+                                    activity_info=a_info)
         return render_template("activity_comments.html",
-                                comment_list=comments.get_comments(
-                                    activity_id),
+                                comment_list=c_list,
                                 activity_id=activity_id,
                                 error_message=error_msg)
     success, error_msg = comments.add_comment(request.form)
     if success:
         return render_template("activity_comments.html",
-                                comment_list=comments.get_comments(
-                                    activity_id),
+                                comment_list=c_list,
                                 activity_id=activity_id,
-                                activity_info=activities.activity_info_short(activity_id))
+                                activity_info=a_info)
     return render_template("activity_comments.html",
-                            comment_list=comments.get_comments(
-                                activity_id),
+                            comment_list=c_list,
                             activity_id=activity_id,
                             error_message=error_msg)
 
@@ -288,7 +299,7 @@ def new_comments(user_id):
         c_list = comments.get_unseen_comments()
         if c_list:
             if comments.mark_as_read():
-                session["unseen_comments"] = comments.get_unseen_count()
+                session["unseen_comments"] = users.get_unseen_count()
         return render_template("new_comments.html",
                                comment_list=c_list)
     return redirect("/")
