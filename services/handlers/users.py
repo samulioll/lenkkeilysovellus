@@ -97,7 +97,7 @@ def get_total_distance(user_id):
     sql = text("""SELECT SUM(R.length)
                   FROM activities A LEFT JOIN routes R 
                   ON A.route_id=R.id 
-                  WHERE A.user_id IN 
+                  WHERE A.visible=TRUE AND A.user_id IN 
                   (SELECT user_id FROM groupmembers WHERE user_id=:user_id)""")
     result = db.session.execute(sql, {"user_id": user_id})
     return result.fetchone()[0]
@@ -107,7 +107,7 @@ def get_distance_walked(user_id):
     sql = text("""SELECT SUM(R.length)
                   FROM activities A LEFT JOIN routes R 
                   ON A.route_id=R.id 
-                  WHERE A.user_id IN 
+                  WHERE A.visible=TRUE AND A.user_id IN 
                   (SELECT user_id FROM groupmembers WHERE user_id=:user_id)
                   AND A.sport_id=1""")
     result = db.session.execute(sql, {"user_id": user_id})
@@ -118,7 +118,7 @@ def get_distance_ran(user_id):
     sql = text("""SELECT SUM(R.length)
                   FROM activities A LEFT JOIN routes R 
                   ON A.route_id=R.id 
-                  WHERE A.user_id IN 
+                  WHERE A.visible=TRUE AND A.user_id IN 
                   (SELECT user_id FROM groupmembers WHERE user_id=:user_id)
                   AND A.sport_id=2""")
     result = db.session.execute(sql, {"user_id": user_id})
@@ -129,7 +129,7 @@ def get_distance_cycled(user_id):
     sql = text("""SELECT SUM(R.length)
                   FROM activities A LEFT JOIN routes R 
                   ON A.route_id=R.id 
-                  WHERE A.user_id IN 
+                  WHERE A.visible=TRUE AND A.user_id IN 
                   (SELECT user_id FROM groupmembers WHERE user_id=:user_id)
                   AND A.sport_id=3""")
     result = db.session.execute(sql, {"user_id": user_id})
@@ -139,7 +139,7 @@ def get_distance_cycled(user_id):
 def get_total_time(user_id):
     sql = text("""SELECT SUM(duration)
                   FROM activities
-                  WHERE user_id IN 
+                  WHERE visible=TRUE AND user_id IN 
                   (SELECT user_id FROM groupmembers WHERE user_id=:user_id)""")
     result = db.session.execute(sql, {"user_id": user_id})
     return result.fetchone()[0]
