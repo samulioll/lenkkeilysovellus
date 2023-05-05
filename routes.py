@@ -330,21 +330,21 @@ def leaderboard(category, stat):
                                 ordered=[" "," "," "," ","▼"])
     if stat == 1:
         return render_template("leaderboard_groups.html",
-                            user_list=activities.group_leaderboard_total_dist(),
+                            group_list=activities.group_leaderboard_total_dist(),
                             ordered=["▼"," "," "," "," "])
     if stat == 2:
         return render_template("leaderboard_groups.html",
-                            user_list=activities.group_leaderboard_total_walked(),
+                            group_list=activities.group_leaderboard_total_walked(),
                             ordered=[" ","▼"," "," "," "])
     if stat == 3:
         return render_template("leaderboard_groups.html",
-                            user_list=activities.group_leaderboard_total_ran(),
+                            group_list=activities.group_leaderboard_total_ran(),
                             ordered=[" "," ","▼"," "," "])
     if stat == 4:
         return render_template("leaderboard_groups.html",
-                            user_list=activities.group_leaderboard_total_cycled(),
+                            group_list=activities.group_leaderboard_total_cycled(),
                             ordered=[" "," "," ","▼"," "])
     if stat == 5:
         return render_template("leaderboard_groups.html",
-                            user_list=activities.group_leaderboard_total_time(),
+                            group_list=activities.group_leaderboard_total_time(),
                             ordered=[" "," "," "," ","▼"])

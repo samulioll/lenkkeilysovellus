@@ -1,48 +1,49 @@
 <style>
     table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
     }
-  
+
     td,
     th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
     }
-  
+
     tr:nth-child(even) {
-      background-color: #dddddd;
+        background-color: #dddddd;
     }
-  </style>
-  
-  {% extends "layout.html" %}
-  {% block title %} All activities {% endblock %}
-  {% block content %}
-  <h2>User Leaderboard</h2>
-  {% if user_list %}
-  <table>
+</style>
+
+{% extends "layout.html" %}
+{% block title %} All activities {% endblock %}
+{% block content %}
+<h2>Group Leaderboard</h2>
+<p>Only users whose profiles are public are counted towards a group's totals.</p><br>
+{% if group_list %}
+<table>
     <tr>
-      <th>User</th>
-      <th><a href="/leaderboard/1/1">Total distance</a> {{ordered[0]}}</th>
-      <th><a href="/leaderboard/1/2">Distance walked</a> {{ordered[1]}}</th>
-      <th><a href="/leaderboard/1/3">Distance ran</a> {{ordered[2]}}</th>
-      <th><a href="/leaderboard/1/4">Distance cycled</a> {{ordered[3]}}</th>
-      <th><a href="/leaderboard/1/5">Total duration</a> {{ordered[4]}}</th>
+        <th>Group</th>
+        <th><a href="/leaderboard/1/1">Total distance</a> {{ordered[0]}}</th>
+        <th><a href="/leaderboard/1/2">Distance walked</a> {{ordered[1]}}</th>
+        <th><a href="/leaderboard/1/3">Distance ran</a> {{ordered[2]}}</th>
+        <th><a href="/leaderboard/1/4">Distance cycled</a> {{ordered[3]}}</th>
+        <th><a href="/leaderboard/1/5">Total duration</a> {{ordered[4]}}</th>
     </tr>
-    {% for user in user_list %}
+    {% for group in group_list %}
     <tr>
-      <td>{{user[0]}}</td>
-      <td>{{user[1]}}</td>
-      <td>{{user[2]}}</td>
-      <td>{{user[3]}}</td>
-      <td>{{user[4]}}</td>
-      <td>{{user[5]}}</td>
+        <td>{{group[0]}}</td>
+        <td>{{group[1]}}</td>
+        <td>{{group[2]}}</td>
+        <td>{{group[3]}}</td>
+        <td>{{group[4]}}</td>
+        <td>{{group[5]}}</td>
     </tr>
     {% endfor %}
-  </table>
-  {% else %}
-  <p>No users with activities.</p>
-  {% endif %}
-  {%endblock %}
+</table>
+{% else %}
+<p>No groups with activities.</p>
+{% endif %}
+{%endblock %}
