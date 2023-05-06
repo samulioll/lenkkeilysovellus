@@ -74,8 +74,7 @@ pip install -r ./requirements.txt
 		```
 		psql < schema.sql
 		```
-	- Jos haluat testitietokannan, jossa on lisättynä muutama ryhmä valmiiksi.
-	  Tämän version skeema myös tyhjentää taulut jos haluat nollata tietokannan helposti:
+	- Jos haluat testitietokannan, jossa on lisättynä muutama ryhmä valmiiksi:
 		```
 		psql < test_schema.sql
 		```
