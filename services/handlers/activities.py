@@ -43,13 +43,13 @@ def add_comment(form):
     return True
 
 
-def user_activities_overview():
+def user_activities_overview(user_id):
     sql = text("""SELECT id, user_id, sport_id, route_id, duration, date, visible
                   FROM activities 
                   WHERE user_id=:user_id AND visible=TRUE
                   ORDER BY id DESC 
                   LIMIT 5""")
-    result = db.session.execute(sql, {"user_id": session["user_id"]})
+    result = db.session.execute(sql, {"user_id": user_id})
     return result.fetchall()
 
 
@@ -67,12 +67,12 @@ def user_groups_activities_overview():
     return result.fetchall()
 
 
-def all_user_activities():
+def all_user_activities(user_id):
     sql = text("""SELECT id, user_id, sport_id, route_id, duration, date, visible
                   FROM activities 
                   WHERE user_id=:user_id AND visible=TRUE
                   ORDER BY id DESC""")
-    result = db.session.execute(sql, {"user_id": session["user_id"]})
+    result = db.session.execute(sql, {"user_id": user_id})
     return result.fetchall()
 
 

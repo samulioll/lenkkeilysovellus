@@ -66,7 +66,34 @@
         <td>{{user_overview[4]}}</td>
     </tr>
 </table><br>
+<h2>{{username}}'s last 5 activities</h2>
+{% if user_list %}
+<table>
+    <tr>
+        <th>Sport</th>
+        <th>Route</th>
+        <th>Length</th>
+        <th>Duration</th>
+        <th>Date and time</th>
+        <th>Comments</th>
+    </tr>
+    {% for activity in user_list %}
+    <tr>
+        <td>{{activity[1]}}</td>
+        <td>{{activity[2]}}</td>
+        <td>{{activity[3]}}</td>
+        <td>{{activity[4]}}</td>
+        <td>{{activity[5]}}</td>
+        <td>{{activity[6]}} - <a href="/activity/{{activity[0]}}/activity_comments">Show</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>{{username}} doesn't have any recorded activities yet.</p>
+{% endif %}
 {% if session.username == username %}
-<a href="/add_activity">Add activity</a> - <a href="/all_activities">All activities</a><br>
+<a href="/add_activity">Add activity</a> - <a href="/user/{{user_id}}/all_activities">All activities</a><br>
+{% else %}
+<a href="/user/{{user_id}}/all_activities">All activities</a><br>
 {% endif %}
 {%endblock %}

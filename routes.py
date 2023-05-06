@@ -50,7 +50,7 @@ def register():
 
 @app.route("/dashboard")
 def dashboard():
-    own_overview = activities.user_activities_overview()
+    own_overview = activities.user_activities_overview(session["user_id"])
     own_formatted = activities.format_activities_for_overview(own_overview)
     groups_overview = activities.user_groups_activities_overview()
     groups_formatted = activities.format_group_activities_for_overview(
@@ -58,15 +58,6 @@ def dashboard():
     return render_template("dashboard.html",
                            own_list=own_formatted,
                            groups_list=groups_formatted
-                           )
-
-
-@app.route("/all_activities")
-def all_activities():
-    activity_list = activities.all_user_activities()
-    formatted = activities.format_activities_for_overview(activity_list)
-    return render_template("all_activities.html",
-                           activity_list=formatted
                            )
 
 
@@ -274,15 +265,18 @@ def activity_comments(activity_id):
 @app.route("/user/<int:user_id>", methods=["GET", "POST"])
 def user_overview(user_id):
     if request.method == "GET":
+        u_overview = activities.user_activities_overview(user_id)
+        u_formatted = activities.format_activities_for_overview(u_overview)
         u_username = users.get_username(user_id)
-        if users.is_public(user_id) or user_id == session["user_id"]:
+        if users.verify_view_right(user_id):
             u_overview = users.user_overview(user_id)
             u_public = users.is_public(user_id)
             return render_template("user_overview.html",
                                    user_id=user_id,
                                    user_public=u_public,
                                    username=u_username,
-                                   user_overview=u_overview)
+                                   user_overview=u_overview,
+                                   user_list=u_formatted)
         return render_template("user_private.html",
                                 username=u_username)
     tools.verify_csrf(session["csrf_token"])
@@ -303,6 +297,17 @@ def new_comments(user_id):
         return render_template("new_comments.html",
                                comment_list=c_list)
     return redirect("/")
+
+
+@app.route("/user/<int:user_id>/all_activities")
+def all_activities(user_id):
+    activity_list = activities.all_user_activities(user_id)
+    formatted = activities.format_activities_for_overview(activity_list)
+    if users.verify_view_right(user_id):
+        return render_template("all_activities.html",
+                            activity_list=formatted
+                            )
+    return render_template("user_private.html")
 
 
 @app.route("/leaderboard/<int:category>/<int:stat>")

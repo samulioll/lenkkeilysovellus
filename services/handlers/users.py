@@ -66,6 +66,12 @@ def is_public(user_id):
     return False
 
 
+def verify_view_right(user_id):
+    if is_public(user_id) or session["user_id"] == user_id:
+        return True
+    return False
+
+
 def make_public():
     sql = text("""UPDATE users
                     SET public=TRUE
