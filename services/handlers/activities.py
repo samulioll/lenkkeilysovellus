@@ -80,8 +80,9 @@ def all_user_activities(user_id):
 def all_user_group_activities():
     sql = text("""SELECT DISTINCT A.id, A.user_id, A.sport_id, A.route_id,
                   A.duration, A.date, A.visible
-                  FROM activities A, groupmembers G 
-                  WHERE A.visible=TRUE AND A.user_id=G.user_id AND G.user_id IN 
+                  FROM activities A, groupmembers G, users U
+                  WHERE A.visible=TRUE AND A.user_id=U.id AND U.public=TRUE
+                  AND A.user_id=G.user_id AND G.user_id IN 
                   (SELECT DISTINCT U.id FROM users U, groupmembers G 
                   WHERE U.id=G.user_id AND G.group_id IN 
                   (SELECT DISTINCT group_id FROM groupmembers WHERE user_id=:user_id)) 
@@ -115,7 +116,7 @@ def format_group_activities_for_overview(act_list):
         date_str = date_parts[0] + " " + date_parts[1]
         comment_count = get_comment_count(activity.id)
         activities.append([activity.id, username, sport, activity_info[0], activity_info[1],
-                           duration_str, date_str, comment_count])
+                           duration_str, date_str, comment_count, activity.user_id])
     return activities
 
 
@@ -154,7 +155,7 @@ def get_length(route_id):
 
 
 def user_leaderboard_total_dist():
-    quer = text("""SELECT U.username AS Username, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -192,7 +193,7 @@ def user_leaderboard_total_dist():
     return None
 
 def user_leaderboard_total_walked():
-    quer = text("""SELECT U.username AS Username, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -231,7 +232,7 @@ def user_leaderboard_total_walked():
 
 
 def user_leaderboard_total_ran():
-    quer = text("""SELECT U.username AS Username, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -270,7 +271,7 @@ def user_leaderboard_total_ran():
 
 
 def user_leaderboard_total_cycled():
-    quer = text("""SELECT U.username AS Username, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -310,7 +311,7 @@ def user_leaderboard_total_cycled():
 
 
 def user_leaderboard_total_time():
-    quer = text("""SELECT U.username AS Username, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,

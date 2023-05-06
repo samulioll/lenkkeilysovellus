@@ -45,8 +45,10 @@
 {% else %}
 <p>You don't have any recorded activities yet.</p>
 {% endif %}
-<a href="/add_activity">Add activity</a> - <a href="/user/{{session.user_id}}/all_activities">All activities</a><br>
+<a href="/add_activity">Add activity</a> - 
+<a href="/user/{{session.user_id}}/all_activities">All activities</a><br><br>
 <h2>Last 5 activities by users in your groups</h2>
+<p>Activities by private users are hidden.</p><br>
 {% if groups_list %}
 <table>
     <tr>
@@ -60,7 +62,7 @@
     </tr>
     {% for activity in groups_list %}
     <tr>
-        <td>{{activity[1]}}</td>
+        <td><a href="/user/{{activity[8]}}">{{activity[1]}}</a></td>
         <td>{{activity[2]}}</td>
         <td>{{activity[3]}}</td>
         <td>{{activity[4]}}</td>
