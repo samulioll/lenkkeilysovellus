@@ -56,8 +56,9 @@ def user_activities_overview(user_id):
 def user_groups_activities_overview():
     sql = text("""SELECT DISTINCT A.id, A.user_id, A.sport_id, A.route_id,
                   A.duration, A.date, A.visible
-                  FROM activities A, groupmembers G 
-                  WHERE A.visible=TRUE AND A.user_id=G.user_id AND G.user_id IN 
+                  FROM activities A, groupmembers G, users U 
+                  WHERE A.visible=TRUE AND A.user_id=U.id AND U.public=TRUE 
+                  AND A.user_id=G.user_id AND G.user_id IN 
                   (SELECT DISTINCT U.id FROM users U, groupmembers G 
                   WHERE U.id=G.user_id AND G.group_id IN 
                   (SELECT DISTINCT group_id FROM groupmembers WHERE user_id=:user_id)) 
