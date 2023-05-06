@@ -350,10 +350,10 @@ def user_leaderboard_total_time():
 
 
 def group_leaderboard_total_dist():
-    quer = text("""SELECT name AS group, SUM(total) AS total, SUM(walked) AS walked, 
-                   SUM(ran)AS ran, SUM(cycled) AS cycled, SUM(time) AS time
+    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked, 
+                   SUM(ran) AS ran, SUM(cycled) AS cycled, SUM(time) AS time
                    FROM
-                   (SELECT U.username AS Username, G.name, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+                   (SELECT U.username AS Username, G.name, G.id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U, groups G, groupmembers M,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -384,7 +384,7 @@ def group_leaderboard_total_dist():
                    ON W.user_id=R.user_id) W
                    ON Di.user_id=W.user_id) T
                    WHERE U.id=T.User_id AND U.public=TRUE AND M.user_id=U.id AND G.id=M.group_id) AS X
-                   GROUP BY name
+                   GROUP BY name, id
                    ORDER BY total DESC""")
     result = db.session.execute(quer)
     if result:
@@ -393,10 +393,10 @@ def group_leaderboard_total_dist():
 
 
 def group_leaderboard_total_walked():
-    quer = text("""SELECT name AS group, SUM(total) AS total, SUM(walked) AS walked, 
-                   SUM(ran)AS ran, SUM(cycled) AS cycled, SUM(time) AS time
+    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked, 
+                   SUM(ran) AS ran, SUM(cycled) AS cycled, SUM(time) AS time
                    FROM
-                   (SELECT U.username AS Username, G.name, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+                   (SELECT U.username AS Username, G.name, G.id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U, groups G, groupmembers M,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -427,7 +427,7 @@ def group_leaderboard_total_walked():
                    ON W.user_id=R.user_id) W
                    ON Di.user_id=W.user_id) T
                    WHERE U.id=T.User_id AND U.public=TRUE AND M.user_id=U.id AND G.id=M.group_id) AS X
-                   GROUP BY name
+                   GROUP BY name, id
                    ORDER BY walked DESC""")
     result = db.session.execute(quer)
     if result:
@@ -436,10 +436,10 @@ def group_leaderboard_total_walked():
 
 
 def group_leaderboard_total_ran():
-    quer = text("""SELECT name AS group, SUM(total) AS total, SUM(walked) AS walked, 
-                   SUM(ran)AS ran, SUM(cycled) AS cycled, SUM(time) AS time
+    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked, 
+                   SUM(ran) AS ran, SUM(cycled) AS cycled, SUM(time) AS time
                    FROM
-                   (SELECT U.username AS Username, G.name, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+                   (SELECT U.username AS Username, G.name, G.id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U, groups G, groupmembers M,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -470,7 +470,7 @@ def group_leaderboard_total_ran():
                    ON W.user_id=R.user_id) W
                    ON Di.user_id=W.user_id) T
                    WHERE U.id=T.User_id AND U.public=TRUE AND M.user_id=U.id AND G.id=M.group_id) AS X
-                   GROUP BY name
+                   GROUP BY name, id
                    ORDER BY ran DESC""")
     result = db.session.execute(quer)
     if result:
@@ -479,10 +479,10 @@ def group_leaderboard_total_ran():
 
 
 def group_leaderboard_total_cycled():
-    quer = text("""SELECT name AS group, SUM(total) AS total, SUM(walked) AS walked, 
-                   SUM(ran)AS ran, SUM(cycled) AS cycled, SUM(time) AS time
+    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked, 
+                   SUM(ran) AS ran, SUM(cycled) AS cycled, SUM(time) AS time
                    FROM
-                   (SELECT U.username AS Username, G.name, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+                   (SELECT U.username AS Username, G.name, G.id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U, groups G, groupmembers M,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -513,7 +513,7 @@ def group_leaderboard_total_cycled():
                    ON W.user_id=R.user_id) W
                    ON Di.user_id=W.user_id) T
                    WHERE U.id=T.User_id AND U.public=TRUE AND M.user_id=U.id AND G.id=M.group_id) AS X
-                   GROUP BY name
+                   GROUP BY name, id
                    ORDER BY cycled DESC""")
     result = db.session.execute(quer)
     if result:
@@ -522,10 +522,10 @@ def group_leaderboard_total_cycled():
 
 
 def group_leaderboard_total_time():
-    quer = text("""SELECT name AS group, SUM(total) AS total, SUM(walked) AS walked, 
-                   SUM(ran)AS ran, SUM(cycled) AS cycled, SUM(time) AS time
+    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked, 
+                   SUM(ran) AS ran, SUM(cycled) AS cycled, SUM(time) AS time
                    FROM
-                   (SELECT U.username AS Username, G.name, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+                   (SELECT U.username AS Username, G.name, G.id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U, groups G, groupmembers M,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -556,7 +556,7 @@ def group_leaderboard_total_time():
                    ON W.user_id=R.user_id) W
                    ON Di.user_id=W.user_id) T
                    WHERE U.id=T.User_id AND U.public=TRUE AND M.user_id=U.id AND G.id=M.group_id) AS X
-                   GROUP BY name
+                   GROUP BY name, id
                    ORDER BY time DESC""")
     result = db.session.execute(quer)
     if result:
