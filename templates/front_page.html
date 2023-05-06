@@ -1,10 +1,16 @@
 {% extends "layout.html" %}
 {% block title %} Front page {% endblock %}
 {% block content %}
+<h2> Welcome!</h2>
 <p>
-    An application for tracking walking, running and cycling activities.
-    <br>
-    <br>
-    -- More information to be added --
+    This is an application for tracking walking, running and cycling activities.
+    <br><br>
+    After you have created an account, you can start adding activities and join groups to share and connect with other users.
+    <br><br>
+    You can also set your profile to private if you do not wish to show your activities to others!
 </p>
+{% if acts == 0 and session.username%}
+<h3><a href="add_activity">Start by adding your first activity!</a></h3>
+
+{% endif %}
 {%endblock %}

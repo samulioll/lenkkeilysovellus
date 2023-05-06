@@ -6,8 +6,11 @@ from services.handlers import activities, users, activity_routes, groups, commen
 
 @app.route("/")
 def front_page():
+    user_id=users.user_id()
+    acts = len(activities.user_activities_overview(user_id))
     return render_template("front_page.html",
-                           user_id=users.user_id()
+                           user_id=user_id,
+                           acts=acts
                            )
 
 
