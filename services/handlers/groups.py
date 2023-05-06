@@ -220,9 +220,15 @@ def demote_admin(group_id, user_id):
 
 
 def get_next_owner(group_id):
-    first_admin = get_other_admins(group_id)[0]
+    try:
+        first_admin = get_other_admins(group_id)[0]
+    except:
+        first_admin = None
     if not first_admin:
-        first_member = get_normal_members(group_id)[0]
+        try:
+            first_member = get_normal_members(group_id)[0]
+        except:
+            first_member = None
         if not first_member:
             return False
         return first_member

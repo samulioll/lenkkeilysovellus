@@ -91,6 +91,29 @@ def all_user_group_activities():
     return result.fetchall()
 
 
+def groups_activities_overview(group_id):
+    sql = text("""SELECT DISTINCT A.id, A.user_id, A.sport_id, A.route_id,
+                  A.duration, A.date, A.visible
+                  FROM activities A, groupmembers G, users U 
+                  WHERE A.visible=TRUE AND A.user_id=U.id AND U.public=TRUE 
+                  AND A.user_id=G.user_id AND G.group_id=:group_id
+                  ORDER BY A.id DESC 
+                  LIMIT 5""")
+    result = db.session.execute(sql, {"group_id": group_id})
+    return result.fetchall()
+
+
+def all_groups_activities_overview(group_id):
+    sql = text("""SELECT DISTINCT A.id, A.user_id, A.sport_id, A.route_id,
+                  A.duration, A.date, A.visible
+                  FROM activities A, groupmembers G, users U 
+                  WHERE A.visible=TRUE AND A.user_id=U.id AND U.public=TRUE 
+                  AND A.user_id=G.user_id AND G.group_id=:group_id
+                  ORDER BY A.id DESC""")
+    result = db.session.execute(sql, {"group_id": group_id})
+    return result.fetchall()
+
+
 def format_activities_for_overview(act_list):
     activities = []
     for activity in act_list:

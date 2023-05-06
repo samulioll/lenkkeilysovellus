@@ -43,6 +43,34 @@
     <td>{{group_overview[4]}}</td>
   </tr>
 </table>
+<h2>Group's last 5 activities</h2>
+{% if group_acts %}
+<table>
+    <tr>
+        <th>User</th>
+        <th>Sport</th>
+        <th>Route</th>
+        <th>Length</th>
+        <th>Duration</th>
+        <th>Date and time</th>
+        <th>Comments</th>
+    </tr>
+    {% for activity in group_acts %}
+    <tr>
+        <td><a href="/user/{{activity[8]}}">{{activity[1]}}</a></td>
+        <td>{{activity[2]}}</td>
+        <td>{{activity[3]}}</td>
+        <td>{{activity[4]}}</td>
+        <td>{{activity[5]}}</td>
+        <td>{{activity[6]}}</td>
+        <td>{{activity[7]}} - <a href="/activity/{{activity[0]}}/activity_comments">Show</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="/group/{{group_id}}/all_activities">All group activities</a>
+{% else %}
+<p>Members of {{group_name}} don't have any recorded activities yet.</p>
+{% endif %}
 <h3>Members</h3>
 <ul>
   <li><a href="/user/{{group_owner.id}}">{{ group_owner.username }}</a> (owner)</li>

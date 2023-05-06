@@ -61,11 +61,11 @@ def dashboard():
                            )
 
 
-@app.route("/all_group_activities")
-def all_group_activities():
+@app.route("/all_user_group_activities")
+def all_user_group_activities():
     activity_list = activities.all_user_group_activities()
     formatted = activities.format_group_activities_for_overview(activity_list)
-    return render_template("all_group_activities.html",
+    return render_template("all_user_group_activities.html",
                            activity_list=formatted
                            )
 
@@ -122,7 +122,6 @@ def leave_group():
     user_id = request.form["user_id"]
     if session["username"] in groups.get_owner(group_id):
         next_owner = groups.get_next_owner(group_id)
-        print(next_owner)
         if next_owner:
             groups.make_owner(group_id, next_owner)
         groups.delete_group(group_id)
@@ -179,7 +178,6 @@ def create_group():
         return render_template("create_group.html")
     tools.verify_csrf(session["csrf_token"])
     success, error_msg, group_id = groups.create_group(request.form)
-    print(group_id)
     if success:
         groups.join_group_owner(group_id)
         return redirect("/group/"+str(group_id))
@@ -190,7 +188,6 @@ def create_group():
 @app.route("/delete_group", methods=["POST"])
 def delete_group():
     tools.verify_csrf(session["csrf_token"])
-    print(request.form["group_id"])
     groups.delete_group(request.form["group_id"])
     return redirect("/community")
 
@@ -202,9 +199,9 @@ def group(group_id):
     g_overview = groups.group_overview(group_id)
     g_owner = groups.get_owner(group_id)
     g_admins = groups.get_admins(group_id)
-    print(g_admins)
+    g_act_overview = activities.groups_activities_overview(group_id)
+    g_formatted = activities.format_group_activities_for_overview(g_act_overview)
     g_admin_right = (session["user_id"], session["username"]) in g_admins
-    print(session["username"])
     return render_template("group_overview.html",
                             group_members=g_members,
                             group_name=g_name,
@@ -212,7 +209,8 @@ def group(group_id):
                             group_owner=g_owner,
                             group_admins=g_admins,
                             admin_rights=g_admin_right,
-                            group_id=group_id)
+                            group_id=group_id,
+                            group_acts=g_formatted)
 
 
 @app.route("/group/<int:group_id>/manage")
@@ -229,13 +227,23 @@ def manage_group(group_id):
                             group_id=group_id)
 
 
+@app.route("/group/<int:group_id>/all_activities")
+def all_group_activities(group_id):
+    g_name = groups.get_name(group_id)
+    activity_list = activities.all_groups_activities_overview(group_id)
+    formatted = activities.format_group_activities_for_overview(activity_list)
+    return render_template("all_group_activities.html",
+                           activity_list=formatted,
+                           group_name=g_name
+                           )
+
+
 @app.route("/activity/<int:activity_id>/activity_comments", methods=["GET", "POST"])
 def activity_comments(activity_id):
-    c_list = comments.get_comments(activity_id)
     a_info = activities.activity_info_short(activity_id)
     if request.method == "GET":
         return render_template("activity_comments.html",
-                               comment_list=c_list,
+                               comment_list=comments.get_comments(activity_id),
                                activity_id=activity_id,
                                activity_info=a_info)
     tools.verify_csrf(session["csrf_token"])
@@ -243,7 +251,7 @@ def activity_comments(activity_id):
         success, error_msg = comments.delete_comment(request.form)
         if success:
             return render_template("activity_comments.html",
-                                    comment_list=c_list,
+                                    comment_list=comments.get_comments(activity_id),
                                     activity_id=activity_id,
                                     activity_info=a_info)
         return render_template("activity_comments.html",
@@ -253,11 +261,11 @@ def activity_comments(activity_id):
     success, error_msg = comments.add_comment(request.form)
     if success:
         return render_template("activity_comments.html",
-                                comment_list=c_list,
+                                comment_list=comments.get_comments(activity_id),
                                 activity_id=activity_id,
                                 activity_info=a_info)
     return render_template("activity_comments.html",
-                            comment_list=c_list,
+                            comment_list=comments.get_comments(activity_id),
                             activity_id=activity_id,
                             error_message=error_msg)
 
