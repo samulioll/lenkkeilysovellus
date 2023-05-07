@@ -328,41 +328,41 @@ def leaderboard(category, stat):
     if category == 1:
         if stat == 1:
             return render_template("leaderboard_users.html",
-                                user_list=users.user_leaderboard_total_dist(),
+                                user_list=users.user_leaderboard(stat),
                                 ordered=["▼"," "," "," "," "])
         if stat == 2:
             return render_template("leaderboard_users.html",
-                                user_list=users.user_leaderboard_total_walked(),
+                                user_list=users.user_leaderboard(stat),
                                 ordered=[" ","▼"," "," "," "])
         if stat == 3:
             return render_template("leaderboard_users.html",
-                                user_list=users.user_leaderboard_total_ran(),
+                                user_list=users.user_leaderboard(stat),
                                 ordered=[" "," ","▼"," "," "])
         if stat == 4:
             return render_template("leaderboard_users.html",
-                                user_list=users.user_leaderboard_total_cycled(),
+                                user_list=users.user_leaderboard(stat),
                                 ordered=[" "," "," ","▼"," "])
         if stat == 5:
             return render_template("leaderboard_users.html",
-                                user_list=users.user_leaderboard_total_time(),
+                                user_list=users.user_leaderboard(stat),
                                 ordered=[" "," "," "," ","▼"])
     if stat == 1:
         return render_template("leaderboard_groups.html",
-                            group_list=groups.group_leaderboard_total_dist(),
+                            group_list=groups.group_leaderboard(stat),
                             ordered=["▼"," "," "," "," "])
     if stat == 2:
         return render_template("leaderboard_groups.html",
-                            group_list=groups.group_leaderboard_total_walked(),
+                            group_list=groups.group_leaderboard(stat),
                             ordered=[" ","▼"," "," "," "])
     if stat == 3:
         return render_template("leaderboard_groups.html",
-                            group_list=groups.group_leaderboard_total_ran(),
+                            group_list=groups.group_leaderboard(stat),
                             ordered=[" "," ","▼"," "," "])
     if stat == 4:
         return render_template("leaderboard_groups.html",
-                            group_list=groups.group_leaderboard_total_cycled(),
+                            group_list=groups.group_leaderboard(stat),
                             ordered=[" "," "," ","▼"," "])
     if stat == 5:
         return render_template("leaderboard_groups.html",
-                            group_list=groups.group_leaderboard_total_time(),
+                            group_list=groups.group_leaderboard(stat),
                             ordered=[" "," "," "," ","▼"])
