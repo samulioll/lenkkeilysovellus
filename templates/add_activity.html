@@ -3,7 +3,7 @@
 {% block content %}
 <h2>Add new activity</h2>
 {% if error_message %}
-<p>{{ error_message }}</p>
+<p><b>Error: {{ error_message }}</b></p>
 {% endif %}
 
 <form action="/add_activity" method="POST">

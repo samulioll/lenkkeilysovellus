@@ -66,6 +66,12 @@ def is_public(user_id):
     return False
 
 
+def verify_user(user_id):
+    if session["user_id"] == user_id:
+        return True
+    return False
+
+
 def verify_view_right(user_id):
     if is_public(user_id) or session["user_id"] == user_id:
         return True
@@ -158,3 +164,198 @@ def get_unseen_count():
                   AND C.visible=TRUE AND C.seen=FALSE""")
     result = db.session.execute(sql, {"user_id": session["user_id"]})
     return result.fetchone()[0]
+
+
+def user_leaderboard_total_dist():
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+                   FROM
+                   users U,
+                   (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
+                   COALESCE(W.ran,0) AS Ran, COALESCE(W.cycled,0) AS Cycled, COALESCE(W.time,0) AS Time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS total FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.route_id=R.id GROUP BY A.user_id) Di
+                   FULL JOIN
+                   (SELECT R.user_id, W.walked, R.ran, R.cycled, R.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS walked FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=1 AND A.route_id=R.id GROUP BY A.user_id) W
+                   FULL JOIN
+                   (SELECT C.user_id, R.ran, C.cycled, C.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS ran FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=2 AND A.route_id=R.id GROUP BY A.user_id) R
+                   FULL JOIN
+                   (SELECT Du.user_id, C.cycled, Du.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS cycled FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=3 AND A.route_id=R.id GROUP BY A.user_id) C
+                   FULL JOIN
+                   (SELECT A.user_id, SUM(A.duration) AS time FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.route_id=R.id GROUP BY A.user_id) Du
+                   ON C.user_id=Du.user_id) C
+                   ON R.user_id=C.user_id) R
+                   ON W.user_id=R.user_id) W
+                   ON Di.user_id=W.user_id) T
+                   WHERE U.id=T.User_id AND U.public=TRUE
+                   ORDER BY T.Total DESC""")
+    result = db.session.execute(quer)
+    if result:
+        return tools.format_leaderboard(result)
+    return None
+
+def user_leaderboard_total_walked():
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+                   FROM
+                   users U,
+                   (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
+                   COALESCE(W.ran,0) AS Ran, COALESCE(W.cycled,0) AS Cycled, COALESCE(W.time,0) AS Time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS total FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.route_id=R.id GROUP BY A.user_id) Di
+                   FULL JOIN
+                   (SELECT R.user_id, W.walked, R.ran, R.cycled, R.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS walked FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=1 AND A.route_id=R.id GROUP BY A.user_id) W
+                   FULL JOIN
+                   (SELECT C.user_id, R.ran, C.cycled, C.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS ran FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=2 AND A.route_id=R.id GROUP BY A.user_id) R
+                   FULL JOIN
+                   (SELECT Du.user_id, C.cycled, Du.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS cycled FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=3 AND A.route_id=R.id GROUP BY A.user_id) C
+                   FULL JOIN
+                   (SELECT A.user_id, SUM(A.duration) AS time FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.route_id=R.id GROUP BY A.user_id) Du
+                   ON C.user_id=Du.user_id) C
+                   ON R.user_id=C.user_id) R
+                   ON W.user_id=R.user_id) W
+                   ON Di.user_id=W.user_id) T
+                   WHERE U.id=T.User_id AND U.public=TRUE
+                   ORDER BY T.Walked DESC""")
+    result = db.session.execute(quer)
+    if result:
+        return tools.format_leaderboard(result)
+    return None
+
+
+def user_leaderboard_total_ran():
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+                   FROM
+                   users U,
+                   (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
+                   COALESCE(W.ran,0) AS Ran, COALESCE(W.cycled,0) AS Cycled, COALESCE(W.time,0) AS Time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS total FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.route_id=R.id GROUP BY A.user_id) Di
+                   FULL JOIN
+                   (SELECT R.user_id, W.walked, R.ran, R.cycled, R.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS walked FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=1 AND A.route_id=R.id GROUP BY A.user_id) W
+                   FULL JOIN
+                   (SELECT C.user_id, R.ran, C.cycled, C.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS ran FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=2 AND A.route_id=R.id GROUP BY A.user_id) R
+                   FULL JOIN
+                   (SELECT Du.user_id, C.cycled, Du.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS cycled FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=3 AND A.route_id=R.id GROUP BY A.user_id) C
+                   FULL JOIN
+                   (SELECT A.user_id, SUM(A.duration) AS time FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.route_id=R.id GROUP BY A.user_id) Du
+                   ON C.user_id=Du.user_id) C
+                   ON R.user_id=C.user_id) R
+                   ON W.user_id=R.user_id) W
+                   ON Di.user_id=W.user_id) T
+                   WHERE U.id=T.User_id AND U.public=TRUE
+                   ORDER BY T.Ran DESC""")
+    result = db.session.execute(quer)
+    if result:
+        return tools.format_leaderboard(result)
+    return None
+
+
+def user_leaderboard_total_cycled():
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+                   FROM
+                   users U,
+                   (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
+                   COALESCE(W.ran,0) AS Ran, COALESCE(W.cycled,0) AS Cycled, COALESCE(W.time,0) AS Time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS total FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.route_id=R.id GROUP BY A.user_id) Di
+                   FULL JOIN
+                   (SELECT R.user_id, W.walked, R.ran, R.cycled, R.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS walked FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=1 AND A.route_id=R.id GROUP BY A.user_id) W
+                   FULL JOIN
+                   (SELECT C.user_id, R.ran, C.cycled, C.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS ran FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=2 AND A.route_id=R.id GROUP BY A.user_id) R
+                   FULL JOIN
+                   (SELECT Du.user_id, C.cycled, Du.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS cycled FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=3 AND A.route_id=R.id GROUP BY A.user_id) C
+                   FULL JOIN
+                   (SELECT A.user_id, SUM(A.duration) AS time FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.route_id=R.id GROUP BY A.user_id) Du
+                   ON C.user_id=Du.user_id) C
+                   ON R.user_id=C.user_id) R
+                   ON W.user_id=R.user_id) W
+                   ON Di.user_id=W.user_id) T
+                   WHERE U.id=T.User_id AND U.public=TRUE
+                   ORDER BY T.Cycled DESC""")
+    result = db.session.execute(quer)
+    if result:
+        return tools.format_leaderboard(result)
+    return None
+
+
+
+def user_leaderboard_total_time():
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+                   FROM
+                   users U,
+                   (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
+                   COALESCE(W.ran,0) AS Ran, COALESCE(W.cycled,0) AS Cycled, COALESCE(W.time,0) AS Time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS total FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.route_id=R.id GROUP BY A.user_id) Di
+                   FULL JOIN
+                   (SELECT R.user_id, W.walked, R.ran, R.cycled, R.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS walked FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=1 AND A.route_id=R.id GROUP BY A.user_id) W
+                   FULL JOIN
+                   (SELECT C.user_id, R.ran, C.cycled, C.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS ran FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=2 AND A.route_id=R.id GROUP BY A.user_id) R
+                   FULL JOIN
+                   (SELECT Du.user_id, C.cycled, Du.time
+                   FROM
+                   (SELECT A.user_id, SUM(R.length) AS cycled FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.sport_id=3 AND A.route_id=R.id GROUP BY A.user_id) C
+                   FULL JOIN
+                   (SELECT A.user_id, SUM(A.duration) AS time FROM routes R, activities A 
+                   WHERE A.visible=TRUE AND A.route_id=R.id GROUP BY A.user_id) Du
+                   ON C.user_id=Du.user_id) C
+                   ON R.user_id=C.user_id) R
+                   ON W.user_id=R.user_id) W
+                   ON Di.user_id=W.user_id) T
+                   WHERE U.id=T.User_id AND U.public=TRUE
+                   ORDER BY T.Time DESC""")
+    result = db.session.execute(quer)
+    if result:
+        return tools.format_leaderboard(result)
+    return None

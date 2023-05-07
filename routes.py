@@ -64,15 +64,6 @@ def dashboard():
                            )
 
 
-@app.route("/all_user_group_activities")
-def all_user_group_activities():
-    activity_list = activities.all_user_group_activities()
-    formatted = activities.format_group_activities_for_overview(activity_list)
-    return render_template("all_user_group_activities.html",
-                           activity_list=formatted
-                           )
-
-
 @app.route("/add_activity", methods=["GET", "POST"])
 def add_activity():
     if request.method == "GET":
@@ -321,46 +312,57 @@ def all_activities(user_id):
     return render_template("user_private.html")
 
 
+@app.route("/user/<int:user_id>/member_group_activities")
+def all_user_group_activities(user_id):
+    if not users.verify_user(user_id):
+        return render_template("no_rights.html")
+    activity_list = activities.all_user_group_activities()
+    formatted = activities.format_group_activities_for_overview(activity_list)
+    return render_template("all_user_group_activities.html",
+                           activity_list=formatted
+                           )
+
+
 @app.route("/leaderboard/<int:category>/<int:stat>")
 def leaderboard(category, stat):
     if category == 1:
         if stat == 1:
             return render_template("leaderboard_users.html",
-                                user_list=activities.user_leaderboard_total_dist(),
+                                user_list=users.user_leaderboard_total_dist(),
                                 ordered=["▼"," "," "," "," "])
         if stat == 2:
             return render_template("leaderboard_users.html",
-                                user_list=activities.user_leaderboard_total_walked(),
+                                user_list=users.user_leaderboard_total_walked(),
                                 ordered=[" ","▼"," "," "," "])
         if stat == 3:
             return render_template("leaderboard_users.html",
-                                user_list=activities.user_leaderboard_total_ran(),
+                                user_list=users.user_leaderboard_total_ran(),
                                 ordered=[" "," ","▼"," "," "])
         if stat == 4:
             return render_template("leaderboard_users.html",
-                                user_list=activities.user_leaderboard_total_cycled(),
+                                user_list=users.user_leaderboard_total_cycled(),
                                 ordered=[" "," "," ","▼"," "])
         if stat == 5:
             return render_template("leaderboard_users.html",
-                                user_list=activities.user_leaderboard_total_time(),
+                                user_list=users.user_leaderboard_total_time(),
                                 ordered=[" "," "," "," ","▼"])
     if stat == 1:
         return render_template("leaderboard_groups.html",
-                            group_list=activities.group_leaderboard_total_dist(),
+                            group_list=groups.group_leaderboard_total_dist(),
                             ordered=["▼"," "," "," "," "])
     if stat == 2:
         return render_template("leaderboard_groups.html",
-                            group_list=activities.group_leaderboard_total_walked(),
+                            group_list=groups.group_leaderboard_total_walked(),
                             ordered=[" ","▼"," "," "," "])
     if stat == 3:
         return render_template("leaderboard_groups.html",
-                            group_list=activities.group_leaderboard_total_ran(),
+                            group_list=groups.group_leaderboard_total_ran(),
                             ordered=[" "," ","▼"," "," "])
     if stat == 4:
         return render_template("leaderboard_groups.html",
-                            group_list=activities.group_leaderboard_total_cycled(),
+                            group_list=groups.group_leaderboard_total_cycled(),
                             ordered=[" "," "," ","▼"," "])
     if stat == 5:
         return render_template("leaderboard_groups.html",
-                            group_list=activities.group_leaderboard_total_time(),
+                            group_list=groups.group_leaderboard_total_time(),
                             ordered=[" "," "," "," ","▼"])
