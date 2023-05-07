@@ -246,7 +246,7 @@ def make_owner(group_id, user_id):
 
 
 def group_leaderboard_total_dist():
-    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked, 
+    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked,
                    SUM(ran) AS ran, SUM(cycled) AS cycled, SUM(time) AS time
                    FROM
                    (SELECT U.username AS Username, G.name, G.id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
@@ -289,7 +289,7 @@ def group_leaderboard_total_dist():
 
 
 def group_leaderboard_total_walked():
-    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked, 
+    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked,
                    SUM(ran) AS ran, SUM(cycled) AS cycled, SUM(time) AS time
                    FROM
                    (SELECT U.username AS Username, G.name, G.id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
@@ -332,7 +332,7 @@ def group_leaderboard_total_walked():
 
 
 def group_leaderboard_total_ran():
-    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked, 
+    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked,
                    SUM(ran) AS ran, SUM(cycled) AS cycled, SUM(time) AS time
                    FROM
                    (SELECT U.username AS Username, G.name, G.id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
@@ -375,7 +375,7 @@ def group_leaderboard_total_ran():
 
 
 def group_leaderboard_total_cycled():
-    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked, 
+    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked,
                    SUM(ran) AS ran, SUM(cycled) AS cycled, SUM(time) AS time
                    FROM
                    (SELECT U.username AS Username, G.name, G.id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
@@ -418,7 +418,7 @@ def group_leaderboard_total_cycled():
 
 
 def group_leaderboard_total_time():
-    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked, 
+    quer = text("""SELECT name AS group, id AS group_id, SUM(total) AS total, SUM(walked) AS walked,
                    SUM(ran) AS ran, SUM(cycled) AS cycled, SUM(time) AS time
                    FROM
                    (SELECT U.username AS Username, G.name, G.id, T.Total, T.Walked, T.Ran, T.Cycled, T.time

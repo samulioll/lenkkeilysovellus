@@ -167,7 +167,8 @@ def get_unseen_count():
 
 
 def user_leaderboard_total_dist():
-    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, 
+                   T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -205,7 +206,8 @@ def user_leaderboard_total_dist():
     return None
 
 def user_leaderboard_total_walked():
-    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, 
+                   T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -244,7 +246,8 @@ def user_leaderboard_total_walked():
 
 
 def user_leaderboard_total_ran():
-    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, 
+                   T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -283,7 +286,8 @@ def user_leaderboard_total_ran():
 
 
 def user_leaderboard_total_cycled():
-    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, 
+                   T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
@@ -323,7 +327,8 @@ def user_leaderboard_total_cycled():
 
 
 def user_leaderboard_total_time():
-    quer = text("""SELECT U.username AS Username, U.id AS User_id, T.Total, T.Walked, T.Ran, T.Cycled, T.time
+    quer = text("""SELECT U.username AS Username, U.id AS User_id, 
+                   T.Total, T.Walked, T.Ran, T.Cycled, T.time
                    FROM
                    users U,
                    (SELECT W.user_id AS User_id, COALESCE(Di.total,0) AS Total, COALESCE(W.walked,0) AS Walked,
