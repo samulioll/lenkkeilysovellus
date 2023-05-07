@@ -326,43 +326,9 @@ def all_user_group_activities(user_id):
 @app.route("/leaderboard/<int:category>/<int:stat>")
 def leaderboard(category, stat):
     if category == 1:
-        if stat == 1:
-            return render_template("leaderboard_users.html",
-                                user_list=users.user_leaderboard(stat),
-                                ordered=["▼"," "," "," "," "])
-        if stat == 2:
-            return render_template("leaderboard_users.html",
-                                user_list=users.user_leaderboard(stat),
-                                ordered=[" ","▼"," "," "," "])
-        if stat == 3:
-            return render_template("leaderboard_users.html",
-                                user_list=users.user_leaderboard(stat),
-                                ordered=[" "," ","▼"," "," "])
-        if stat == 4:
-            return render_template("leaderboard_users.html",
-                                user_list=users.user_leaderboard(stat),
-                                ordered=[" "," "," ","▼"," "])
-        if stat == 5:
-            return render_template("leaderboard_users.html",
-                                user_list=users.user_leaderboard(stat),
-                                ordered=[" "," "," "," ","▼"])
-    if stat == 1:
-        return render_template("leaderboard_groups.html",
-                            group_list=groups.group_leaderboard(stat),
-                            ordered=["▼"," "," "," "," "])
-    if stat == 2:
-        return render_template("leaderboard_groups.html",
-                            group_list=groups.group_leaderboard(stat),
-                            ordered=[" ","▼"," "," "," "])
-    if stat == 3:
-        return render_template("leaderboard_groups.html",
-                            group_list=groups.group_leaderboard(stat),
-                            ordered=[" "," ","▼"," "," "])
-    if stat == 4:
-        return render_template("leaderboard_groups.html",
-                            group_list=groups.group_leaderboard(stat),
-                            ordered=[" "," "," ","▼"," "])
-    if stat == 5:
-        return render_template("leaderboard_groups.html",
-                            group_list=groups.group_leaderboard(stat),
-                            ordered=[" "," "," "," ","▼"])
+        return render_template("leaderboard_users.html",
+                            user_list=users.user_leaderboard(stat),
+                            ordered_by=tools.sorted_by_icon(stat))
+    return render_template("leaderboard_groups.html",
+                        group_list=groups.group_leaderboard(stat),
+                        ordered_by=tools.sorted_by_icon(stat))

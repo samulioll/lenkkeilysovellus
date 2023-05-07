@@ -46,3 +46,11 @@ def format_leaderboard(ranked_list):
         time = format_time(entry[6])
         return_list.append([name, name_id, dist, walk, run, cycle, time])
     return return_list
+
+def sorted_by_icon(stat):
+    icon_list = []
+    for i in range(1, 6):
+        if i == stat:
+            icon_list.append("▼")
+        icon_list.append(" ")
+    return icon_list
