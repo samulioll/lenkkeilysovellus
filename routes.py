@@ -249,7 +249,7 @@ def activity_comments(activity_id):
                                     activity_id=activity_id,
                                     activity_info=a_info)
         return render_template("activity_comments.html",
-                                comment_list=c_list,
+                                comment_list=comments.get_comments(activity_id),
                                 activity_id=activity_id,
                                 error_message=error_msg)
     success, error_msg = comments.add_comment(request.form)

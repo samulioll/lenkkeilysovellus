@@ -9,43 +9,41 @@ Sovellus mihin käyttäjät voivat lisätä kävellen, juosten tai pyöräillen 
 ## Tarkempi kuvaus
 
 - Käyttäjäprofiili
-	- (✓) Käyttäjät voivat luoda itselleen käyttäjäprofiilin.
-	- (✓) Käyttäjät voivat asettaa profiilinsa näkyvyyden yksityiseksi.
+	- Käyttäjät voivat luoda itselleen käyttäjäprofiilin.
+	- Käyttäjät voivat asettaa profiilinsa näkyvyyden yksityiseksi.
 
 - Profiilisivu
-	- (✓) Jokainen käyttäjä näkee tiivistetyt tilastot omista lenkeistään.
-	- (✓) Jokainen käyttäjä voi nähdä tietyn toisen käyttäjän tilastot jos tämä käyttäjä on asettanut se julkiseksi.
+	- Jokainen käyttäjä näkee tiivistetyt tilastot omista lenkeistään.
+	- Jokainen käyttäjä voi nähdä tietyn toisen käyttäjän tilastot jos tämän profiili on julkinen.
 
 - Ryhmät
-	- (✓) Käyttäjät voivat luoda ryhmiä.
-	- (✓) Ryhmän ylläpitäjät voivat poistaa jäseniä.
-	- (✓) Ryhmän ylläpitäjät voivat tehdä jäsenistä ylläpitäjiä.
-	- (✓) Jos omistaja lähtee ryhmästä niin ensimmäisestä administa tai sen jälkeen jäsenestä tulee omistaja. Jos ei ole muita jäseniä niin ryhmä poistuu.
-	- (✓) Ryhmän perustaja voi poistaa ryhmän.
-	- (✓) Käyttäjät voivat liittyä ryhmiin.
-	- (✓) Käyttäjät voivat poistua ryhmistä.
+	- Käyttäjät voivat liittyä ryhmiin.
+	- Käyttäjät voivat poistua ryhmistä.
+	- Käyttäjät voivat luoda ryhmiä.
+	- Ryhmän ylläpitäjät voivat poistaa jäseniä.
+	- Ryhmän ylläpitäjät voivat tehdä jäsenistä ylläpitäjiä.
+	- Ryhmän omistaja voi poistaa ylläpito-oikeudet.
+	- Jos omistaja lähtee ryhmästä niin ensimmäisestä ylläpitäjästä tai sen jälkeen jäsenestä tulee omistaja. Jos ei ole muita jäseniä niin ryhmä poistuu.
+	- Ryhmän perustaja voi poistaa ryhmän.
 
 - Ryhmäsivu
-	- (✓) Ryhmän tilastot.
-	- (✓) Ryhmän jäsenet.
-	- (✓) Ryhmän ylläpitosivu ylläpitäjille.
+	- Ryhmän tilastot.
+	- Ryhmän jäsenet.
+	- Ryhmän ylläpitosivu ylläpitäjille.
 
 - Lenkkien lisäys tietokantaan
-	- (✓) Käyttäjät voivat lisätä tekemiään lenkkejä ja niiden tiedot tallennetaan tietokantaan.
-	- (✓) Kommentin lisäys lenkin lisäyksen yhteydessä.
+	- Käyttäjät voivat lisätä tekemiään lenkkejä ja niiden tiedot tallennetaan tietokantaan.
+	- Kommentin lisäys lenkin lisäyksen yhteydessä.
 
 - Kommentointi
-	- (✓) Käyttäjät voivat kommentoida lenkkejä.
-	- (✓) Käyttäjät voivat poistaa omia kommenttejaan.
-	- (✓) Uusista lukemattomista kommenteista tulee ilmoitus
+	- Käyttäjät voivat kommentoida lenkkejä.
+	- Käyttäjät voivat poistaa omia kommenttejaan.
+	- Uusista lukemattomista kommenteista tulee ilmoitus aktiviteetin omistajalle, joka poistuu kun tämä on nähnyt kommentin.
 
-- Kaikkien käyttäjien yleiset tilastot
-	- (✓) Jokainen käyttäjä voi nähdä tilastot kaikkien käyttäjien tekemistä lenkeistä, riippumatta yksityisyysasetuksista. Kokonaistilastoista ei kuitenkaan voi yksilöidä käyttäjiä.
-	- (✓) Leaderboard käyttäjille.
-
-- Kaikien ryhmien tilastot
-	- (✓) Jokainen käyttäjä voi nähdä tilastot kaikkien ryhmien tekemistä lenkeistä, riippumatta yksityisyysasetuksista. Kokonaistilastoista ei kuitenkaan voi yksilöidä käyttäjiä.
-	- (✓) Leaderboard ryhmille.
+- Leaderboardit
+	- Leaderboard käyttäjille.
+	- Leaderboard ryhmille.
+	- Leaderboardin voi järjestää minkä tahansa tilaston mukaan.
 
 ## Sovelluksen käynnistäminen paikallisesti
 
